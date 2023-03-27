@@ -16,16 +16,18 @@ export default function App() {
       <Tab.Navigator
         screenOptions={{
           tabBarShowLabel: false,
+          tabBarActiveTintColor: '#0c8079',
         }}>
         <Tab.Screen
           name='Home'
           component={Home}
           options={{
             headerShown: false,
-            tabBarIcon: () => (
+            tabBarIcon: (props) => (
               <Icon
                 name='home'
                 type='feather'
+                color={props.color}
               />
             ),
           }}
@@ -35,10 +37,11 @@ export default function App() {
           component={Scanner}
           options={{
             headerShown: false,
-            tabBarIcon: () => (
+            tabBarIcon: (props) => (
               <Icon
                 name='maximize'
                 type='feather'
+                color={props.color}
               />
             ),
           }}
@@ -48,10 +51,11 @@ export default function App() {
           component={Search}
           options={{
             headerShown: false,
-            tabBarIcon: () => (
+            tabBarIcon: (props) => (
               <Icon
                 name='search'
                 type='feather'
+                color={props.color}
               />
             ),
           }}
@@ -61,10 +65,11 @@ export default function App() {
           component={Profile}
           options={{
             headerShown: false,
-            tabBarIcon: () => (
+            tabBarIcon: (props) => (
               <Icon
                 name='user'
                 type='feather'
+                color={props.color}
               />
             ),
           }}
