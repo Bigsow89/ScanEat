@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { StyleSheet, View, Text, SafeAreaView, StatusBar } from 'react-native';
 
 export default function Scanner() {
@@ -10,8 +11,16 @@ export default function Scanner() {
 }
 
 
+
+
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   AndroidSafeArea: {
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0
-  }
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+  },
 });
+
