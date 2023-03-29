@@ -1,10 +1,21 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, StatusBar, Text, SafeAreaView } from 'react-native';
 
 export default function Scanner() {
   return (
-    <View>
-      <Text>Scan</Text>
-    </View>
+    <SafeAreaView style={[styles.container, styles.AndroidSafeArea]}>
+      <Text>Scanner</Text>
+    </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  AndroidSafeArea: {
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+  },
+});
