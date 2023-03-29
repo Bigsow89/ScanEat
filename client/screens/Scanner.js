@@ -1,13 +1,17 @@
 import React from 'react';
-import { StyleSheet, StatusBar, Text, SafeAreaView } from 'react-native';
+
+import { StyleSheet, View, Text, SafeAreaView, StatusBar } from 'react-native';
 
 export default function Scanner() {
   return (
-    <SafeAreaView style={[styles.container, styles.AndroidSafeArea]}>
-      <Text>Scanner</Text>
-    </SafeAreaView>
+    <SafeAreaView style={styles.AndroidSafeArea}>
+      <Text>ScanEat if you can Eat</Text>
+    </SafeAreaView >
   );
 }
+
+
+
 
 const styles = StyleSheet.create({
   container: {
@@ -19,3 +23,4 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
 });
+
