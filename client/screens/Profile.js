@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, StatusBar, Text, Image, SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, StatusBar, Text, Image, SafeAreaView, ScrollView, TouchableOpacity, View, Platform, Share } from 'react-native';
 import profileImage from '../assets/profile1.jpg';
 import  back  from '../assets/back.jpg';
 import  BriefCase  from '../assets/BriefCase.png';
@@ -8,8 +8,26 @@ import IconFeather from 'react-native-vector-icons/Feather'
 import IconSimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons' 
 import Arrow from 'react-native-vector-icons/Ionicons' 
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
+import UserAvatar from 'react-native-user-avatar';
 
 export default function Profile() {
+
+  onShare = () =>{
+    let text = "Hello, I just installed this App for scanning products if they include insects or not. I found it so helpful. I'm going to start using it in my daily life. "
+    if (Platform.os === 'android')
+    text = text.concat('https://www.google.com')
+    else
+    text = text.concat('https://www.google.com')
+    Share.share({
+subect:'ScanEat',
+Title:'ScanEat',
+message: text,
+url: 'https://www.google.com',
+    }, {
+      dialogTitle: 'Please share it !',
+      excludedActivityTypes:[]
+    })
+  }
   return (
     <View style={styles.AndroidSafeArea}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -22,7 +40,8 @@ export default function Profile() {
       </TouchableOpacity>
       </View>
       <TouchableOpacity style={{alignItems:'center'}}>
-        <Image source={profileImage} style={{width:140, height:140, borderRadius:100, marginTop:-70}}/>
+        {/* <Image source={profileImage} style={{width:140, height:140, borderRadius:100, marginTop:-70}}/> */}
+        <UserAvatar size={100} name="Ahmad Chamas" style={{width:140, height:140, borderRadius:100, marginTop:-70, backgroundColor:'#A4BE7B'}}/>
         </TouchableOpacity>
         <View style={{alignItems:'center'}}>
         <Text style={{fontSize:25, fontWeight: 'bold', padding: 10}}>Ahmad Chamas</Text>
@@ -33,7 +52,7 @@ export default function Profile() {
       <Icon name="favorite-border" size={25} color="#0c8079" paddingTop={3}/>
     <Text style={{padding: 5}}>Your Favoraite</Text>
     </TouchableOpacity>
-    <TouchableOpacity style={styles.buttonIcons}>
+    <TouchableOpacity style={styles.buttonIcons} onPress={this.onShare}>
       <IconFeather name="share-2" size={25} color="#0c8079" />
     <Text style={{padding: 5}}>Tell your Friend</Text>
     </TouchableOpacity>
