@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView  } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Icon } from '@rneui/themed';
@@ -12,6 +12,7 @@ const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
+    <SafeAreaView style={styles.AndroidSafeArea}>
     <NavigationContainer>
       <Tab.Navigator
         screenOptions={{
@@ -83,6 +84,7 @@ export default function App() {
       </Tab.Navigator>
       <StatusBar style='auto' />
     </NavigationContainer>
+    </SafeAreaView>
   );
 }
 
@@ -94,3 +96,10 @@ export default function App() {
 //     justifyContent: 'center',
 //   },
 // });
+const styles = StyleSheet.create({
+  AndroidSafeArea: {
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    flex: 1, 
+    justifyContent: "flex-end"
+  }
+});
