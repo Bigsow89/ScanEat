@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <SafeAreaView style={[styles.container, styles.AndroidSafeArea]}>
       <Image
-        source={require('../assets/empty-home-page.png')}
+        source={require('../../assets/empty-home-page.png')}
         style={styles.image}
       />
       <Text style={styles.text}>Hey, wanna scan some items?</Text>
@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#eef2e6',
   },
   image: {
     width: 240,
