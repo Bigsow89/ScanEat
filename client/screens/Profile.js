@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   StyleSheet,
   StatusBar,
@@ -18,6 +18,7 @@ import UserAvatar from 'react-native-user-avatar';
 import AuthNav from './AuthNav';
 import LoginScreen from './LoginScreen/LoginScreen';
 import { useNavigation } from '@react-navigation/native';
+
 
 export default function Profile() {
   const navigation = useNavigation();
