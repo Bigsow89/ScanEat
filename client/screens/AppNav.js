@@ -3,14 +3,14 @@ import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Icon } from '@rneui/themed';
-import HomeScreen from '../screens/HomeScreen';
+import HomeScreen from './HomeScreen';
 import Scanner from './Scanner';
 import Search from './Search';
 import Profile from './Profile';
 
 const Tab = createBottomTabNavigator();
 
-export default function AllTabs() {
+export default function AppNav() {
   return (
     <NavigationContainer>
       <SafeAreaView style={[styles.AndroidSafeArea, styles.bg]}>
@@ -88,14 +88,6 @@ export default function AllTabs() {
   );
 }
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });
 const styles = StyleSheet.create({
   AndroidSafeArea: {
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,

@@ -1,22 +1,16 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  StatusBar,
-  KeyboardAvoidingView,
-} from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import React from 'react';
 import 'react-native-gesture-handler';
-import AllTabs from './screens/AllTabs';
-import LoginScreen from './screens/LoginScreen/LoginScreen';
-import Navigation from './screens/Navigation';
+import AuthNav from './screens/AuthNav'; //AuthNav
+import AppNav from './screens/AppNav'; //AppNav
 
 const App = () => {
+  const isLoggedIn = true;
   return (
     <View style={styles.root}>
-      {/* <LoginScreen /> */}
+      {isLoggedIn ? <AppNav /> : <AuthNav />}
       {/* <AllTabs /> */}
-      <Navigation />
+      {/* <Navigation /> */}
     </View>
   );
 };
@@ -25,7 +19,6 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     // paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-    backgroundColor: '#eef2e6',
   },
 });
 

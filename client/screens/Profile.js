@@ -15,8 +15,15 @@ import IconSimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import Arrow from 'react-native-vector-icons/Ionicons';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import UserAvatar from 'react-native-user-avatar';
+import AuthNav from './AuthNav';
+import LoginScreen from './LoginScreen/LoginScreen';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Profile() {
+  const navigation = useNavigation();
+  const onLogOutPressed = () => {
+    navigation.navigate('Login');
+  };
   onShare = () => {
     let text =
       "Hello, I just installed this App for scanning products if they include insects or not. I found it so helpful. I'm going to start using it in my daily life. ";
@@ -120,7 +127,9 @@ export default function Profile() {
           />
           <Text style={{ padding: 5 }}>Settings</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonIcons}>
+        <TouchableOpacity
+          style={styles.buttonIcons}
+          onPress={onLogOutPressed}>
           <SimpleLineIcons
             name='logout'
             size={25}

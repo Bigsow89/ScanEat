@@ -24,7 +24,7 @@ const LoginScreen = () => {
   const navigation = useNavigation();
   const onLoginPressed = () => {
     //Validate the user in backend
-    navigation.navigate('AllTabs');
+    navigation.navigate('AppNav');
   };
   const onForgotPasswordPressed = () => {
     navigation.navigate('ResetPassword');
