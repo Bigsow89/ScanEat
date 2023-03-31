@@ -1,13 +1,16 @@
 import React from 'react';
 import { VStack, Input, Button, IconButton, Icon, Text, NativeBaseProvider, Center, Box, Divider, Heading } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
-import { StyleSheet,  Image ,SafeAreaView, StatusBar} from 'react-native';
+import { StyleSheet,  Image ,SafeAreaView, StatusBar, View} from 'react-native';
+import axios from "axios";
+import {useState, useEffect} from 'react';
 
 const Search = () => {
+
   return <VStack my="4" space={5} w="100%" maxW="300px" divider={<Box px="2">
      <Divider />
         </Box>}>
-        <VStack w="100%" space={5} alignSelf="center">
+        <VStack w="100%" space={5} alignSelf="center" >
           <Center/>
         
         <Input placeholder="Search" variant="rounded" width="100%" borderRadius="20" py="2" 
@@ -16,20 +19,22 @@ const Search = () => {
       </VStack>;
 };
 
-    export default () => {
+
+  export default () => {
+
         return (
           <>
           <NativeBaseProvider >
-          <VStack space={4} alignItems="center">
+          <VStack space={4} alignItems="center" style={styles.searchBackgroud}>
         
-               <Search/>  
+               <Search />  
          
                </VStack>    
                <SafeAreaView style={[styles.container, styles.AndroidSafeArea]}>
                <Image
         source={require('../assets/empty-home-page.png')}
         style={styles.image}
-      />          
+      />        
       </SafeAreaView> 
           </NativeBaseProvider>
           </>
@@ -55,4 +60,7 @@ const styles = StyleSheet.create({
   AndroidSafeArea: {
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
+  searchBackgroud:{
+    backgroundColor: '#eef2e6',
+  }
 });

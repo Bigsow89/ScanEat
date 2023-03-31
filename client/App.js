@@ -15,8 +15,8 @@ const App = () => {
   return (
     <View style={styles.root}>
       {/* <LoginScreen /> */}
-      {/* <AllTabs /> */}
-      <Navigation />
+       <AllTabs /> 
+     {/*  <Navigation /> */}
     </View>
   );
 };
