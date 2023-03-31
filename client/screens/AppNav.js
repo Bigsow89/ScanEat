@@ -7,7 +7,7 @@ import HomeScreen from './HomeScreen';
 import Scanner from './Scanner';
 import Search from './Search';
 import Profile from './Profile';
-
+import Products from './Products';
 const Tab = createBottomTabNavigator();
 
 export default function AppNav() {
@@ -68,8 +68,8 @@ export default function AppNav() {
             }}
           />
           <Tab.Screen
-            name='Profile'
-            component={Profile}
+            name='Products'
+            component={Products}
             options={{
               headerShown: false,
               tabBarIcon: (props) => (
