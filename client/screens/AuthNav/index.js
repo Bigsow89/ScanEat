@@ -6,7 +6,6 @@ import SignUpScreen from '../SignUpScreen/SignUpScreen';
 import ConfirmEmailScreen from '../ConfirmEmailScreen/ConfirmEmailScreen';
 import NewPasswordScreen from '../NewPasswordScreen/NewPasswordScreen';
 import ResetPasswordScreen from '../ResetPasswordScreen/ResetPasswordScreen';
-import Profile from '../Profile';
 
 const Stack = createStackNavigator();
 
@@ -37,10 +36,6 @@ const AuthNav = () => {
         <Stack.Screen
           name='ResetPassword'
           component={ResetPasswordScreen}
-        />
-        <Stack.Screen
-          name='Profile'
-          component={Profile}
         />
       </Stack.Navigator>
     </NavigationContainer>
