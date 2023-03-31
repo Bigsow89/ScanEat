@@ -1,15 +1,31 @@
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 
 const CustomButton = ({ onPress, text, type, bgColor, fgColor }) => {
   return (
-    <Pressable
+    <TouchableOpacity
       onPress={onPress}
       style={[
         styles.container,
         styles[`container_${type}`],
         bgColor ? { backgroundColor: bgColor } : {},
       ]}>
+      {text === 'Sign in with Google' && (
+        <Entypo
+          name='google-'
+          size={20}
+          color='black'
+        />
+      )}
+      {text === 'Sign in with Apple ID' && (
+        <MaterialCommunityIcons
+          name='apple'
+          size={20}
+          color='black'
+        />
+      )}
       <Text
         style={[
           styles.text,
@@ -18,7 +34,7 @@ const CustomButton = ({ onPress, text, type, bgColor, fgColor }) => {
         ]}>
         {text}
       </Text>
-    </Pressable>
+    </TouchableOpacity>
   );
 };
 
