@@ -20,7 +20,6 @@ const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { height } = useWindowDimensions();
-
   const navigation = useNavigation();
   const onLoginPressed = () => {
     //Validate the user in backend
