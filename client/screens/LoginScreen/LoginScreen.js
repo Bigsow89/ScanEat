@@ -20,11 +20,10 @@ const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { height } = useWindowDimensions();
-
   const navigation = useNavigation();
   const onLoginPressed = () => {
     //Validate the user in backend
-    navigation.navigate('AllTabs');
+    navigation.navigate('AppNav');
   };
   const onForgotPasswordPressed = () => {
     navigation.navigate('ResetPassword');

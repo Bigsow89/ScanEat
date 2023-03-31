@@ -6,11 +6,10 @@ import SignUpScreen from '../SignUpScreen/SignUpScreen';
 import ConfirmEmailScreen from '../ConfirmEmailScreen/ConfirmEmailScreen';
 import NewPasswordScreen from '../NewPasswordScreen/NewPasswordScreen';
 import ResetPasswordScreen from '../ResetPasswordScreen/ResetPasswordScreen';
-import AllTabs from '../AllTabs';
 
 const Stack = createStackNavigator();
 
-const Navigation = () => {
+const AuthNav = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -38,13 +37,9 @@ const Navigation = () => {
           name='ResetPassword'
           component={ResetPasswordScreen}
         />
-        <Stack.Screen
-          name='AllTabs'
-          component={AllTabs}
-        />
       </Stack.Navigator>
     </NavigationContainer>
   );
 };
 
-export default Navigation;
+export default AuthNav;
