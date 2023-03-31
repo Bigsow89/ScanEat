@@ -1,12 +1,13 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { BarCodeScanner } from "expo-barcode-scanner";
-import { useDisclose } from "native-base";
-import { Actionsheet } from "native-base";
+import { NativeBaseProvider } from "native-base";
 import axios from "axios";
 import {
   StyleSheet,
+  Image,
   View,
+  Modal,
   Text,
   SafeAreaView,
   StatusBar,
@@ -17,9 +18,9 @@ import {
 export default function Scanner() {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
-  const [productData, setProductData] = useState();
+  const [productData, setProductData] = useState(null);
   const [text, setText] = useState();
-  const { isOpen, onOpen, onClose } = useDisclose();
+  const [isOpen, setIsOpen] = useState(false);
   const askForCameraPermission = () => {
     (async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
@@ -36,11 +37,12 @@ export default function Scanner() {
     try {
       setScanned(true);
       setText(data);
+      console.log(process.env.REACT_APP_SERVER_BASE_URL);
       const response = await axios.get(
-        `${process.env.REACT_APP_SERVER_BASE_URL}/api/products/scan/${data}`
+        `http://192.168.189.2:8000/api/products/scan/${data}`
       );
-      setProductData(response.data); // set the response data to a new state variable
-      console.log("Type: " + type + "\nData: " + data);
+      setProductData(response.data);
+      setIsOpen(true);
     } catch (error) {
       console.error(error);
     }
@@ -67,49 +69,63 @@ export default function Scanner() {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.container}>
-        <View style={styles.barcodebox}>
-          <BarCodeScanner
-            onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-            style={{ height: 400, width: 400 }}
-          />
-        </View>
-        <Text style={styles.maintext}>{text}</Text>
-
-        {scanned && (
-          <TouchableOpacity style={styles.button}>
-            <Button
-              title={"Scan again"}
-              onPress={() => setScanned(false)}
-              color="black"
+    <NativeBaseProvider>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
+          <View style={styles.barcodebox}>
+            <BarCodeScanner
+              onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+              style={{ height: 400, width: 400 }}
             />
-          </TouchableOpacity>
-        )}
-      </View>
-      {productData && (
-        <Center>
-          <Button onPress={onOpen}>Actionsheet</Button>
+          </View>
+          <Text style={styles.maintext}>{text}</Text>
 
-          <Actionsheet isOpen={isOpen} onClose={onClose} disableOverlay>
-            <Actionsheet.Content>
-              <Box w="100%" h={60} px={4} justifyContent="center">
-                <Text
-                  fontSize="16"
-                  color="gray.500"
-                  _dark={{
-                    color: "gray.300",
-                  }}
-                >
-                  Albums
+          {scanned && (
+            <TouchableOpacity style={styles.button}>
+              <Button
+                title={"Scan again"}
+                onPress={() => setScanned(false)}
+                color="black"
+              />
+            </TouchableOpacity>
+          )}
+        </View>
+      </SafeAreaView>
+      {productData && (
+        <Modal visible={isOpen} animationType="slide" transparent={false}>
+          <SafeAreaView
+            style={{
+              flex: 1,
+              flexDirection: "row",
+
+              justifyContent: "center",
+            }}
+          >
+            <Image
+              source={{ uri: productData.photos }}
+              style={{ height: 120, width: 120 }}
+              alt="Product"
+            />
+
+            <View style={{ backgroundColor: "#fff", flex: 1 }}>
+              <View style={{ paddingLeft: 12, paddingBottom: 16 }}>
+                <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+                  {productData.productName}
                 </Text>
-              </Box>
-              <Actionsheet.Item>Delete</Actionsheet.Item>
-            </Actionsheet.Content>
-          </Actionsheet>
-        </Center>
+              </View>
+              <View style={{ paddingLeft: 14, paddingBottom: 16 }}>
+                <Text style={{ fontSize: 16 }}>{productData.categoryName}</Text>
+              </View>
+              <View style={{ paddingLeft: 14 }}>
+                <Text style={{ fontSize: 16 }}>
+                  {productData.countryOrigin}
+                </Text>
+              </View>
+            </View>
+          </SafeAreaView>
+        </Modal>
       )}
-    </SafeAreaView>
+    </NativeBaseProvider>
   );
 }
 
