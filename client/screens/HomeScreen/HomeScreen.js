@@ -1,15 +1,15 @@
 import React from 'react';
-import { StyleSheet, View, Text, Image } from 'react-native';
+import { StyleSheet, StatusBar, Text, Image, SafeAreaView } from 'react-native';
 
 export default function Home() {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={[styles.container, styles.AndroidSafeArea]}>
       <Image
-        source={require('../assets/empty-home-page.png')}
+        source={require('../../assets/empty-home-page.png')}
         style={styles.image}
       />
       <Text style={styles.text}>Hey, wanna scan some items?</Text>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#eef2e6',
   },
   image: {
     width: 240,
@@ -28,5 +29,8 @@ const styles = StyleSheet.create({
     fontSize: 24,
     paddingTop: 20,
     opacity: 0.5,
+  },
+  AndroidSafeArea: {
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
 });
