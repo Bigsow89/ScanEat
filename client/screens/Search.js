@@ -134,7 +134,7 @@ const Search = () => {
                     width: 40,
                     height: 40,
                     alignSelf: "center",
-                    marginRight: 20,
+                    marginRight: 22,
                   }}
                   alt={item.productName}
                 />
