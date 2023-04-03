@@ -12,7 +12,7 @@ const Tab = createBottomTabNavigator();
 
 export default function AppNav() {
   return (
-    <NavigationContainer>
+    <NavigationContainer independent={true}>
       <SafeAreaView style={[styles.AndroidSafeArea, styles.bg]}>
         <Tab.Navigator
           screenOptions={{
@@ -68,8 +68,8 @@ export default function AppNav() {
             }}
           />
           <Tab.Screen
-            name='Products'
-            component={Products}
+            name='profile'
+            component={Profile}
             options={{
               headerShown: false,
               tabBarIcon: (props) => (

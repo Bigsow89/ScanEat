@@ -53,16 +53,7 @@ export default function Profile() {
             backgroundColor: '#0c8079',
             height: 150,
           }}>
-          <TouchableOpacity>
-            <Arrow
-              name='ios-arrow-undo-outline'
-              size={30}
-              color='white'
-            />
-
-            <View></View>
-            <View></View>
-          </TouchableOpacity>
+       
         </View>
         <TouchableOpacity style={{ alignItems: 'center' }}>
           {/* <Image source={profileImage} style={{width:140, height:140, borderRadius:100, marginTop:-70}}/> */}

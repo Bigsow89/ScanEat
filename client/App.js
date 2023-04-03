@@ -1,17 +1,22 @@
-import { View, StyleSheet } from 'react-native';
+import { AppRegistry, StyleSheet } from 'react-native';
 import React from 'react';
-import 'react-native-gesture-handler';
-import AuthNav from './screens/AuthNav'; //AuthNav
-import AppNav from './screens/AppNav'; //AppNav
-
+//import 'react-native-gesture-handler';
+import {name as appName} from './app.json';
+import { registerRootComponent } from "expo";
+import { NavigationContainer } from '@react-navigation/native';
+import MainNavigator from './components/MainNavigator';
+import LoginProvider from './Context/LoginProvider'
 const App = () => {
-  const isLoggedIn = true;
+  //const isLoggedIn = false;
+ 
   return (
-    <View style={styles.root}>
-      {isLoggedIn ? <AppNav /> : <AuthNav />}
-      {/* <AllTabs /> */}
-      {/* <Navigation /> */}
-    </View>
+  <>
+    <LoginProvider>
+    <NavigationContainer>
+      <MainNavigator />
+    </NavigationContainer>
+  </LoginProvider>
+  </>
   );
 };
 
