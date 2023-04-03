@@ -13,9 +13,7 @@ import {
   StatusBar,
   Button,
   TouchableOpacity,
-
 } from "react-native";
-
 
 export default function Scanner() {
   const [hasPermission, setHasPermission] = useState(null);
@@ -28,7 +26,6 @@ export default function Scanner() {
     (async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
       setHasPermission(status === "granted");
-
     })();
   };
   // Request Camera Permission
@@ -47,7 +44,6 @@ export default function Scanner() {
       );
       setProductData(response.data);
       setIsOpen(true);
-
     } catch (error) {
       console.error(error);
     }
@@ -66,9 +62,7 @@ export default function Scanner() {
       <View style={styles.container}>
         <Text style={{ margin: 10 }}>No access to camera</Text>
         <Button
-
           title={"Allow Camera"}
-
           onPress={() => askForCameraPermission()}
         />
       </View>
@@ -128,6 +122,12 @@ export default function Scanner() {
                   {productData.countryOrigin}
                 </Text>
               </View>
+              <TouchableOpacity
+                onPress={() => setIsOpen(false)}
+                style={{ alignSelf: "flex-end", marginRight: 10 }}
+              >
+                <Text style={{ color: "blue" }}>Close</Text>
+              </TouchableOpacity>
             </View>
           </SafeAreaView>
         </Modal>
@@ -144,9 +144,9 @@ const styles = StyleSheet.create({
   },
   AndroidSafeArea: {
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#eef2e6',
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#eef2e6",
   },
   maintext: {
     fontSize: 16,
@@ -167,12 +167,12 @@ const styles = StyleSheet.create({
     width: 300,
   },
   barcodebox: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     height: 300,
     width: 300,
-    overflow: 'hidden',
+    overflow: "hidden",
     borderRadius: 30,
-    backgroundColor: 'tomato',
+    backgroundColor: "tomato",
   },
 });

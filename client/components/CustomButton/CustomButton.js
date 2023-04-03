@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Entypo } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 
 const CustomButton = ({ onPress, text, type, bgColor, fgColor }) => {
   return (
@@ -13,8 +13,8 @@ const CustomButton = ({ onPress, text, type, bgColor, fgColor }) => {
         bgColor ? { backgroundColor: bgColor } : {},
       ]}>
       {text === 'Sign in with Google' && (
-        <Entypo
-          name='google-'
+        <AntDesign
+          name='google'
           size={20}
           color='black'
         />

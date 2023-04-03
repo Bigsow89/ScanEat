@@ -12,7 +12,11 @@ const Tab = createBottomTabNavigator();
 
 export default function AppNav() {
   return (
+
     <NavigationContainer independent={true}>
+
+    <>
+
       <SafeAreaView style={[styles.AndroidSafeArea, styles.bg]}>
         <Tab.Navigator
           screenOptions={{
@@ -84,7 +88,7 @@ export default function AppNav() {
         </Tab.Navigator>
       </SafeAreaView>
       <StatusBar style='auto' />
-    </NavigationContainer>
+    </>
   );
 }
 
