@@ -1,15 +1,21 @@
 import { View, Text, TextInput, StyleSheet } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 
-const CustomInput = ({ value, setValue, placeholder, secureTextEntry }) => {
+const CustomInput = ({ placeholder, secureTextEntry }) => {
+  const [value, setValue] = useState('');
+
+  const handleChange = (text) => {
+    setValue(text);
+  };
+
   return (
     <View style={styles.container}>
       <TextInput
-        value={value}
-        onChange={setValue}
         placeholder={placeholder}
-        style={styles.input}
+        value={value}
+        onChangeText={handleChange}
         secureTextEntry={secureTextEntry}
+        returnKeyType='done'
       />
     </View>
   );
