@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from '../LoginScreen/LoginScreen';
@@ -9,9 +9,9 @@ import ResetPasswordScreen from '../ResetPasswordScreen/ResetPasswordScreen';
 
 const Stack = createStackNavigator();
 
-const AuthNav = () => {
+const AuthNav = ({ handleLogin }) => {
   return (
-    <NavigationContainer>
+    <>
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
@@ -19,7 +19,7 @@ const AuthNav = () => {
         }}>
         <Stack.Screen
           name='Login'
-          component={LoginScreen}
+          children={() => <LoginScreen handleLogin={handleLogin} />}
         />
         <Stack.Screen
           name='SignUp'
@@ -38,7 +38,7 @@ const AuthNav = () => {
           component={ResetPasswordScreen}
         />
       </Stack.Navigator>
-    </NavigationContainer>
+    </>
   );
 };
 
