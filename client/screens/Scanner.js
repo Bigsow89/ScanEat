@@ -83,11 +83,7 @@ export default function Scanner() {
 
           {scanned && (
             <TouchableOpacity style={styles.button}>
-              <Button
-                title={"Scan again"}
-                onPress={() => setScanned(false)}
-                color="black"
-              />
+              <Button title={"Scan again"} onPress={() => setScanned(false)} />
             </TouchableOpacity>
           )}
         </View>
@@ -141,6 +137,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "#eef2e6",
   },
   AndroidSafeArea: {
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
