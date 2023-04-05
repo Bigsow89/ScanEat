@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -19,8 +19,15 @@ import axios from "axios";
 const ProductDetail = ({ route }) => {
   const { productData } = route.params;
   const [newComment, setNewComment] = useState("");
+  const [altProducts, setAltProducts] = useState([]);
   const screenHeight = Dimensions.get("window").height;
   const dynamicKeyboardOffset = screenHeight * 0.25;
+
+  useEffect(() => {
+    axios
+      .get("http://192.168.189.2:8000/api/products")
+      .then((response) => setAltProducts(response.data));
+  }, []);
 
   const handleCommentSubmit = async () => {
     try {
@@ -29,7 +36,6 @@ const ProductDetail = ({ route }) => {
         return;
       }
 
-      // Replace this URL with your backend API endpoint
       const response = await axios.post(
         `http://192.168.189.2:8000/api/products/${productData._id}/comment`,
         { comment: newComment }
@@ -94,19 +100,19 @@ const ProductDetail = ({ route }) => {
             </View>
           </View>
           {/* Render alternative products if available */}
-          {productData.alternativeProducts && (
+          {altProducts && (
             <View style={styles.alt}>
               <Text style={styles.sectionTitle}>Alternative Products</Text>
               <FlatList
                 horizontal
-                data={productData.alternativeProducts}
+                data={altProducts}
                 renderItem={({ item }) => (
                   <Image
-                    source={{ uri: item.image }}
+                    source={{ uri: item.photos }}
                     style={styles.altProductImage}
                   />
                 )}
-                keyExtractor={(item) => item.id.toString()}
+                keyExtractor={(item) => item._id.toString()}
               />
             </View>
           )}
