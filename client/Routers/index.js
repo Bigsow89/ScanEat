@@ -1,8 +1,8 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import StartScreen from '../screens/StartScreen';
-import AuthNav from '../screens/AuthNav';
-import AppNav from '../screens/AppNav';
+import AppForm from '../components/AppForm';
+import MainNavigator from '../components/MainNavigator';
 
 const Stack = createNativeStackNavigator();
 
@@ -14,12 +14,12 @@ const Routers = () => {
         component={StartScreen}
       />
       <Stack.Screen
-        name='AuthNav'
-        component={AuthNav}
+        name='AppForm'
+        component={AppForm}
       />
       <Stack.Screen
-        name='AppNav'
-        component={AppNav}
+        name='MainNavigator'
+        component={MainNavigator}
       />
     </Stack.Navigator>
   );

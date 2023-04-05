@@ -1,25 +1,24 @@
 import { View, useWindowDimensions, StyleSheet, Image } from 'react-native';
 import React, { useEffect } from 'react';
 import Logo from '../assets/logo.png';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const StartScreen = ({ navigation }) => {
   const { height } = useWindowDimensions();
 
   useEffect(() => {
     setTimeout(() => {
-      handleGetToken();
+      navigation.navigate('MainNavigator');
     }, 3000);
   });
 
-  const handleGetToken = async () => {
-    const dataToken = await AsyncStorage.getItem('AccessToken');
-    if (!dataToken) {
-      navigation.navigate('AppNav');
-    } else {
-      navigation.navigate('AuthNav');
-    }
-  };
+  // const handleGetToken = async () => {
+  //   const dataToken = await AsyncStorage.getItem('AccessToken');
+  //   if (!dataToken) {
+  //     navigation.navigate('LoginForm');
+  //   } else {
+  //     navigation.navigate('AppNav');
+  //   }
+  // };
 
   return (
     <View style={styles.container}>
