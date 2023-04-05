@@ -17,8 +17,8 @@ const Tab = createBottomTabNavigator();
 function SearchStackNavigator() {
   return (
 
-    <>
-    <NavigationContainer independent={true}>
+    
+ 
 
    
 
@@ -41,7 +41,7 @@ function SearchStackNavigator() {
 export default function AppNav() {
   return (
     <>
-
+   <NavigationContainer independent={true}>
       <SafeAreaView style={[styles.AndroidSafeArea, styles.bg]}>
         <Tab.Navigator
           screenOptions={{
