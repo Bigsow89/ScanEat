@@ -6,6 +6,7 @@ import SignUpScreen from '../SignUpScreen/SignUpScreen';
 import ConfirmEmailScreen from '../ConfirmEmailScreen/ConfirmEmailScreen';
 import NewPasswordScreen from '../NewPasswordScreen/NewPasswordScreen';
 import ResetPasswordScreen from '../ResetPasswordScreen/ResetPasswordScreen';
+import LoginForm from '../../components/LoginForm';
 
 const Stack = createStackNavigator();
 
@@ -19,7 +20,7 @@ const AuthNav = ({ handleLogin }) => {
         }}>
         <Stack.Screen
           name='Login'
-          children={() => <LoginScreen handleLogin={handleLogin} />}
+          component={LoginForm}
         />
         <Stack.Screen
           name='SignUp'

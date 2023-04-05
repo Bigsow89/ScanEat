@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import {logo2} from '../assets/logo2.png';
+import { logo2 } from '../assets/logo2.png';
 
 import {
   ScrollView,
@@ -45,13 +45,14 @@ export default function AppForm({ navigation }) {
 
   return (
     <View style={{ flex: 1, paddingTop: 120 }}>
-        <Image source={require('../assets/logo2.png')} style={{width:100 , height:100, alignSelf: 'center'}}/>
+      <Image
+        source={require('../assets/logo2.png')}
+        style={{ width: 100, height: 100, alignSelf: 'center' }}
+      />
       <View style={{ height: 80 }}>
-        
         <FormHeader
           leftHeading='Welcome '
           rightHeading='Back'
-         
           rightHeaderOpacity={rightHeaderOpacity}
           leftHeaderTranslateX={leftHeaderTranslateX}
           rightHeaderTranslateY={rightHeaderTranslateY}
@@ -62,8 +63,7 @@ export default function AppForm({ navigation }) {
           flexDirection: 'row',
           paddingHorizontal: 20,
           marginBottom: 20,
-        }}
-      >
+        }}>
         <FormSelectorBtn
           style={styles.borderLeft}
           backgroundColor={loginColorInterpolate}
@@ -86,8 +86,7 @@ export default function AppForm({ navigation }) {
         onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { x: animation } } }],
           { useNativeDriver: false }
-        )}
-      >
+        )}>
         <LoginForm navigation={navigation} />
         <ScrollView>
           <SignupForm navigation={navigation} />
@@ -100,7 +99,7 @@ export default function AppForm({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    
+
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',

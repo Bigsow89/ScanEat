@@ -7,16 +7,13 @@ import HomeScreen from './HomeScreen';
 import Scanner from './Scanner';
 import Search from './Search';
 import Profile from './Profile';
-import Products from './Products';
 const Tab = createBottomTabNavigator();
 
 export default function AppNav() {
   return (
-
-    <NavigationContainer independent={true}>
+    // <NavigationContainer independent={true}>
 
     <>
-
       <SafeAreaView style={[styles.AndroidSafeArea, styles.bg]}>
         <Tab.Navigator
           screenOptions={{
@@ -30,7 +27,7 @@ export default function AppNav() {
             },
           }}>
           <Tab.Screen
-            name='Home'
+            name='HomeScreen'
             component={HomeScreen}
             options={{
               headerShown: false,

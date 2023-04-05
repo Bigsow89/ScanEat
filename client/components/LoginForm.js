@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Text, TextInput } from 'react-native';
 import client from '../components/api/client';
-import  {useLogin}  from '../Context/LoginProvider';
+import { useLogin } from '../Context/LoginProvider';
 import { isValidEmail, isValidObjField, updateError } from './utils/methods';
 import FormContainer from './FormContainer';
 import FormInput from './FormInput';
 import FormSubmitButton from './FormSubmitButton';
+import CustomButton from './CustomButton/CustomButton';
+import SocialSignInButtons from './SocialSignInButtons/SocialSignInButtons';
 
 const LoginForm = () => {
   const { setIsLoggedIn, setProfile } = useLogin();
@@ -61,24 +63,37 @@ const LoginForm = () => {
       ) : null}
       <FormInput
         value={email}
-        onChangeText={value => handleOnChangeText(value, 'email')}
+        onChangeText={(value) => handleOnChangeText(value, 'email')}
         label='Email'
         placeholder='example@email.com'
         autoCapitalize='none'
       />
       <FormInput
         value={password}
-        onChangeText={value => handleOnChangeText(value, 'password')}
+        onChangeText={(value) => handleOnChangeText(value, 'password')}
         label='Password'
         placeholder='********'
         autoCapitalize='none'
         secureTextEntry
       />
-      <FormSubmitButton onPress={submitForm} title='Login' />
+
+      <FormSubmitButton
+        onPress={submitForm}
+        title='Login'
+      />
+      <SocialSignInButtons />
     </FormContainer>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  forgotpassword: {
+    alignSelf: 'flex-end',
+  },
+  signup: {
+    alignSelf: 'center',
+    marginTop: 10,
+  },
+});
 
 export default LoginForm;

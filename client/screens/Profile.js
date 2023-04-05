@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   StyleSheet,
   StatusBar,
@@ -18,7 +18,6 @@ import UserAvatar from 'react-native-user-avatar';
 import AuthNav from './AuthNav';
 import LoginScreen from './LoginScreen/LoginScreen';
 import { useNavigation } from '@react-navigation/native';
-
 
 export default function Profile() {
   const navigation = useNavigation();
@@ -52,9 +51,7 @@ export default function Profile() {
             width: '100%',
             backgroundColor: '#0c8079',
             height: 150,
-          }}>
-       
-        </View>
+          }}></View>
         <TouchableOpacity style={{ alignItems: 'center' }}>
           {/* <Image source={profileImage} style={{width:140, height:140, borderRadius:100, marginTop:-70}}/> */}
           <UserAvatar
