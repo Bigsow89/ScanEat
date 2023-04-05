@@ -2,7 +2,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import Routers from '../client/Routers/index';
 import LoginProvider from './Context/LoginProvider';
-import StartScreen from './screens/StartScreen';
+
 
 const App = () => {
   return (
