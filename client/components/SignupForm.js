@@ -1,42 +1,42 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import React, { useState } from "react";
+import { View, StyleSheet, Text } from "react-native";
 
-import { isValidEmail, isValidObjField, updateError } from './utils/methods';
-import FormContainer from './FormContainer';
-import FormInput from './FormInput';
-import FormSubmitButton from './FormSubmitButton';
-import { StackActions } from '@react-navigation/native';
+import { isValidEmail, isValidObjField, updateError } from "./utils/methods";
+import FormContainer from "./FormContainer";
+import FormInput from "./FormInput";
+import FormSubmitButton from "./FormSubmitButton";
+import { StackActions } from "@react-navigation/native";
 
-import { Formik } from 'formik';
-import * as Yup from 'yup';
+import { Formik } from "formik";
+import * as Yup from "yup";
 
-import client from './api/client';
+import client from "./api/client";
 
 const validationSchema = Yup.object({
   name: Yup.string()
     .trim()
-    .min(3, 'Invalid name!')
-    .required('Name is required!'),
-  email: Yup.string().email('Invalid email!').required('Email is required!'),
+    .min(3, "Invalid name!")
+    .required("Name is required!"),
+  email: Yup.string().email("Invalid email!").required("Email is required!"),
   password: Yup.string()
     .trim()
-    .min(8, 'Password is too short!')
-    .required('Password is required!'),
+    .min(8, "Password is too short!")
+    .required("Password is required!"),
   confirmPassword: Yup.string().equals(
-    [Yup.ref('password'), null],
-    'Password does not match!'
+    [Yup.ref("password"), null],
+    "Password does not match!"
   ),
 });
 
 const SignupForm = ({ navigation }) => {
   const userInfo = {
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   };
 
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const { name, email, password, confirmPassword } = userInfo;
 
@@ -47,18 +47,18 @@ const SignupForm = ({ navigation }) => {
   const isValidForm = () => {
     // we will accept only if all of the fields have value
     if (!isValidObjField(userInfo))
-      return updateError('Required all fields!', setError);
+      return updateError("Required all fields!", setError);
     // if valid name with 3 or more characters
     if (!name.trim() || name.length < 3)
-      return updateError('Invalid name!', setError);
+      return updateError("Invalid name!", setError);
     // only valid email id is allowed
-    if (!isValidEmail(email)) return updateError('Invalid email!', setError);
+    if (!isValidEmail(email)) return updateError("Invalid email!", setError);
     // password must have 8 or more characters
     if (!password.trim() || password.length < 8)
-      return updateError('Password is less then 8 characters!', setError);
+      return updateError("Password is less then 8 characters!", setError);
     // password and confirm password must be the same
     if (password !== confirmPassword)
-      return updateError('Password does not match!', setError);
+      return updateError("Password does not match!", setError);
 
     return true;
   };
@@ -71,18 +71,15 @@ const SignupForm = ({ navigation }) => {
   };
 
   const signUp = async (values, formikActions) => {
-    const res = await client.post('/auth/register', {
+    const res = await client.post("/auth/register", {
       ...values,
     });
 
     if (res.data.success) {
-      const signInRes = await client.post('/auth/login', {
+      const signInRes = await client.post("/auth/login", {
         email: values.email,
         password: values.password,
       });
-     
-        
-      
     }
 
     formikActions.resetForm();
@@ -111,44 +108,44 @@ const SignupForm = ({ navigation }) => {
               <FormInput
                 value={name}
                 error={touched.name && errors.name}
-                onChangeText={handleChange('name')}
-                onBlur={handleBlur('name')}
-                label='Name'
-                placeholder='John Smith'
+                onChangeText={handleChange("name")}
+                onBlur={handleBlur("name")}
+                label="Name"
+                placeholder="John Smith"
               />
               <FormInput
                 value={email}
                 error={touched.email && errors.email}
-                onChangeText={handleChange('email')}
-                onBlur={handleBlur('email')}
-                autoCapitalize='none'
-                label='Email'
-                placeholder='example@email.com'
+                onChangeText={handleChange("email")}
+                onBlur={handleBlur("email")}
+                autoCapitalize="none"
+                label="Email"
+                placeholder="example@email.com"
               />
               <FormInput
                 value={password}
                 error={touched.password && errors.password}
-                onChangeText={handleChange('password')}
-                onBlur={handleBlur('password')}
-                autoCapitalize='none'
+                onChangeText={handleChange("password")}
+                onBlur={handleBlur("password")}
+                autoCapitalize="none"
                 secureTextEntry
-                label='Password'
-                placeholder='********'
+                label="Password"
+                placeholder="********"
               />
               <FormInput
                 value={confirmPassword}
                 error={touched.confirmPassword && errors.confirmPassword}
-                onChangeText={handleChange('confirmPassword')}
-                onBlur={handleBlur('confirmPassword')}
-                autoCapitalize='none'
+                onChangeText={handleChange("confirmPassword")}
+                onBlur={handleBlur("confirmPassword")}
+                autoCapitalize="none"
                 secureTextEntry
-                label='Confirm Password'
-                placeholder='********'
+                label="Confirm Password"
+                placeholder="********"
               />
               <FormSubmitButton
                 submitting={isSubmitting}
                 onPress={handleSubmit}
-                title='Sign up'
+                title="Sign up"
               />
             </>
           );

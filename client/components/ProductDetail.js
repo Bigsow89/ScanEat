@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -7,83 +7,140 @@ import {
   StyleSheet,
   FlatList,
   SafeAreaView,
+  TextInput,
+  Button,
+  Platform,
+  KeyboardAvoidingView,
+  Dimensions,
+  TouchableOpacity,
 } from "react-native";
+import axios from "axios";
 
 const ProductDetail = ({ route }) => {
   const { productData } = route.params;
+  const [newComment, setNewComment] = useState("");
+  const screenHeight = Dimensions.get("window").height;
+  const dynamicKeyboardOffset = screenHeight * 0.25;
+
+  const handleCommentSubmit = async () => {
+    try {
+      if (newComment.trim() === "") {
+        alert("Please enter a comment");
+        return;
+      }
+
+      // Replace this URL with your backend API endpoint
+      const response = await axios.post(
+        `http://192.168.189.2:8000/api/products/${productData._id}/comment`,
+        { comment: newComment }
+      );
+
+      // Update the state with the updated comment list
+      productData.comment = response.data.comment;
+      setNewComment("");
+    } catch (error) {
+      console.error("Error submitting the comment:", error);
+      alert("There was an error submitting your comment. Please try again.");
+    }
+  };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <ScrollView>
-        <View style={styles.contentContainer}>
-          <View style={styles.container}>
-            <View style={styles.header}>
-              <Image
-                source={{ uri: productData.photos }}
-                style={styles.productImage}
-              />
-              <View style={styles.headerText}>
-                <Text style={styles.productName}>
-                  {productData.productName}
-                </Text>
-                <Text style={styles.countryOfOrigin}>
-                  {productData.categoryName}
-                </Text>
-              </View>
-            </View>
-            <Text style={styles.description}>{productData.description}</Text>
-            {/* Render ingredients and minerals if available */}
-            {productData.ingredients && (
-              <>
-                <Text style={styles.sectionTitle}>Ingredients</Text>
-                {productData.ingredients.map((ingredient, index) => (
-                  <Text key={index} style={styles.listItem}>
-                    {ingredient}
-                  </Text>
-                ))}
-              </>
-            )}
-            {productData.minerals && (
-              <>
-                <Text style={styles.sectionTitle}>Minerals</Text>
-                {productData.minerals.map((mineral, index) => (
-                  <Text key={index} style={styles.listItem}>
-                    {mineral}
-                  </Text>
-                ))}
-              </>
-            )}
-          </View>
-        </View>
-        {/* Render alternative products if available */}
-        {productData.alternativeProducts && (
-          <View style={styles.alt}>
-            <Text style={styles.sectionTitle}>Alternative Products</Text>
-            <FlatList
-              horizontal
-              data={productData.alternativeProducts}
-              renderItem={({ item }) => (
+    <KeyboardAvoidingView
+      style={styles.safeArea}
+      enabled={true}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={dynamicKeyboardOffset}
+    >
+      <SafeAreaView>
+        <ScrollView>
+          <View style={styles.contentContainer}>
+            <View style={styles.container}>
+              <View style={styles.header}>
                 <Image
-                  source={{ uri: item.image }}
-                  style={styles.altProductImage}
+                  source={{ uri: productData.photos }}
+                  style={styles.productImage}
                 />
+                <View style={styles.headerText}>
+                  <Text style={styles.productName}>
+                    {productData.productName}
+                  </Text>
+                  <Text style={styles.countryOfOrigin}>
+                    {productData.categoryName}
+                  </Text>
+                </View>
+              </View>
+              <Text style={styles.description}>{productData.description}</Text>
+              {/* Render ingredients and minerals if available */}
+              {productData.ingredients && (
+                <>
+                  <Text style={styles.sectionTitle}>Ingredients</Text>
+                  {productData.ingredients.map((ingredient, index) => (
+                    <Text key={index} style={styles.listItem}>
+                      {ingredient}
+                    </Text>
+                  ))}
+                </>
               )}
-              keyExtractor={(item) => item.id.toString()}
-            />
+              {productData.minerals && (
+                <>
+                  <Text style={styles.sectionTitle}>Minerals</Text>
+                  {productData.minerals.map((mineral, index) => (
+                    <Text key={index} style={styles.listItem}>
+                      {mineral}
+                    </Text>
+                  ))}
+                </>
+              )}
+            </View>
           </View>
-        )}
-        {productData.comment && (
-          <>
-            <Text style={styles.sectionTitle}>Comments</Text>
-            {productData.comment.map((comments, index) => (
-              <Text key={index} style={styles.listItem}>
-                {comments}
-              </Text>
-            ))}
-          </>
-        )}
-      </ScrollView>
-    </SafeAreaView>
+          {/* Render alternative products if available */}
+          {productData.alternativeProducts && (
+            <View style={styles.alt}>
+              <Text style={styles.sectionTitle}>Alternative Products</Text>
+              <FlatList
+                horizontal
+                data={productData.alternativeProducts}
+                renderItem={({ item }) => (
+                  <Image
+                    source={{ uri: item.image }}
+                    style={styles.altProductImage}
+                  />
+                )}
+                keyExtractor={(item) => item.id.toString()}
+              />
+            </View>
+          )}
+          {productData.comment && (
+            <>
+              <Text style={styles.sectionTitle}>Comments</Text>
+              {productData.comment.map((comments, index) => (
+                <Text key={index} style={styles.listItem}>
+                  {comments}
+                </Text>
+              ))}
+            </>
+          )}
+          <View style={styles.addComment}>
+            <TextInput
+              style={styles.commentInput}
+              placeholder="Add a comment"
+              onChangeText={(text) => setNewComment(text)}
+              value={newComment}
+            />
+            <TouchableOpacity
+              onPress={handleCommentSubmit}
+              style={{
+                backgroundColor: "#0c8079",
+                padding: 10,
+                borderRadius: 5,
+              }}
+            >
+              <Text style={{ color: "#fff" }}>Submit</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -96,7 +153,7 @@ const styles = StyleSheet.create({
   },
   safeArea: {
     flex: 1,
-    justifyContent: "space-between",
+    // justifyContent: "space-between",
     backgroundColor: "#eef2e6",
   },
   contentContainer: {
@@ -140,6 +197,25 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     marginRight: 10,
+  },
+  addComment: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: 10,
+  },
+  commentInput: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    marginRight: 10,
+    paddingLeft: 5,
+    paddingVertical: 10,
+  },
+  submit: {
+    backgroundColor: "#0c8079",
+    color: "red",
   },
 });
 
