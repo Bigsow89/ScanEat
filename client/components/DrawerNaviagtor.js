@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import {
   createDrawerNavigator,
@@ -6,17 +6,55 @@ import {
   DrawerItemList,
 } from '@react-navigation/drawer';
 import AppNav from '../screens/AppNav';
-import Home from './Home';
-import Tasks from './Tasks';
+import axios from 'axios';
 import { useLogin } from '../Context/LoginProvider';
 import UserAvatar from 'react-native-user-avatar';
 import Scanner from '../screens/Scanner';
 import Search from '../screens/Search';
 import Profile from '../screens/Profile';
+import {client} from './api/client';
+
 const Drawer = createDrawerNavigator();
 
-const CustomDrawer = props => {
-  const { setIsLoggedIn, profile } = useLogin();
+const CustomDrawer = (props) => {
+
+
+ 
+  
+  const { setIsLoggedIn, user } = useLogin();
+ 
+
+ /*  useEffect(() => {
+    axios
+      .get('http://192.168.191.159:8000/auth/loggedin-user')
+      .then(res => {
+        console.log(res.data);
+        setIsLoggedin(true);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, []); */
+
+  
+  const handleLogout =  () => {
+    try{
+      axios.post('http://192.168.191.159:8000/auth/logout', {})
+  
+
+      .then(res => {
+       setIsLoggedIn(false);
+      
+    })
+  //console.log(profile.name)
+      
+    }catch{
+      (error) => {
+        console.error(error)
+    }
+    
+  };
+}
   return (
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView {...props}>
@@ -31,12 +69,12 @@ const CustomDrawer = props => {
           }}
         >
           <View>
-            <Text style={{fontSize:16, fontWeight:'bold'}}>{profile.name}</Text>
+            <Text style={{fontSize:16, fontWeight:'bold'}}>{user.name}</Text>
            
           </View>
           <UserAvatar
             size={60}
-            name={profile.name}
+            name={user.name}
             style={{
               width: 70,
               height: 70,
@@ -57,15 +95,18 @@ const CustomDrawer = props => {
           backgroundColor: '#f6f6f6',
           padding: 20,
         }}
-        onPress={() => setIsLoggedIn(false)}
+        onPress={handleLogout}
       >
         <Text>Log Out</Text>
+        
       </TouchableOpacity>
     </View>
   );
 };
 
 const DrawerNavigator = () => {
+
+
   return (
     <Drawer.Navigator
       screenOptions={{

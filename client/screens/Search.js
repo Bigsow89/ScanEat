@@ -33,7 +33,7 @@ const Search = () => {
 
   const handleSearch = () => {
     axios
-      .get(`http://192.168.189.2:8000/api/products/search/${searchQuery}`)
+      .get(`http://192.168.191.159:8000/api/products/search/${searchQuery}`)
       .then((response) => {
         const filteredProducts = response.data.filter(
           (product) =>
