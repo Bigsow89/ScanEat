@@ -12,7 +12,6 @@ import {
   Center,
   Box,
   Divider,
-  Heading,
 } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import {
@@ -21,15 +20,15 @@ import {
   Image,
   SafeAreaView,
   StatusBar,
-  View,
+  TouchableOpacity,
 } from "react-native";
 import axios from "axios";
-import { useState, useEffect } from "react";
-import Products from "./Products";
-
+import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 const Search = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [matchingProduct, setMatchingProduct] = useState([]);
+  const navigation = useNavigation();
 
   const handleSearch = () => {
     axios
@@ -91,55 +90,61 @@ const Search = () => {
         <FlatList
           data={matchingProduct}
           renderItem={({ item }) => (
-            <Box
-              style={{ width: 420 }}
-              borderBottomWidth="1"
-              _dark={{
-                borderColor: "muted.50",
-              }}
-              borderColor="muted.800"
-              pl={["0", "4"]}
-              pr={["0", "5"]}
-              py="2"
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("ProductDetail", { productData: item })
+              }
             >
-              <HStack space={[2, 3]} justifyContent="space-between">
-                <Image
-                  source={{ uri: item.photos }}
-                  style={{ width: 80, height: 80 }}
-                  alt={item.productName}
-                />
-                <VStack>
-                  <Text
-                    _dark={{
-                      color: "warmGray.50",
+              <Box
+                style={{ width: 420 }}
+                borderBottomWidth="1"
+                _dark={{
+                  borderColor: "muted.50",
+                }}
+                borderColor="muted.800"
+                pl={["0", "4"]}
+                pr={["0", "5"]}
+                py="2"
+              >
+                <HStack space={[2, 3]} justifyContent="space-between">
+                  <Image
+                    source={{ uri: item.photos }}
+                    style={{ width: 80, height: 80 }}
+                    alt={item.productName}
+                  />
+                  <VStack>
+                    <Text
+                      _dark={{
+                        color: "warmGray.50",
+                      }}
+                      color="coolGray.800"
+                      bold
+                    >
+                      {item.productName}
+                    </Text>
+                    <Text
+                      color="coolGray.600"
+                      _dark={{
+                        color: "warmGray.200",
+                      }}
+                    >
+                      {item.categoryName}
+                    </Text>
+                  </VStack>
+                  <Spacer />
+                  <Image
+                    source={{ uri: item?.classificationPhoto[0] }}
+                    style={{
+                      width: 40,
+                      height: 40,
+                      alignSelf: "center",
+                      marginRight: 22,
                     }}
-                    color="coolGray.800"
-                    bold
-                  >
-                    {item.productName}
-                  </Text>
-                  <Text
-                    color="coolGray.600"
-                    _dark={{
-                      color: "warmGray.200",
-                    }}
-                  >
-                    {item.categoryName}
-                  </Text>
-                </VStack>
-                <Spacer />
-                <Image
-                  source={{ uri: item?.classificationPhoto[0] }}
-                  style={{
-                    width: 40,
-                    height: 40,
-                    alignSelf: "center",
-                    marginRight: 22,
-                  }}
-                  alt={item.productName}
-                />
-              </HStack>
-            </Box>
+                    alt={item.productName}
+                  />
+                </HStack>
+              </Box>
+            </TouchableOpacity>
           )}
           keyExtractor={(item) => item.id}
         />
@@ -179,7 +184,7 @@ const styles = StyleSheet.create({
   AndroidSafeArea: {
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
-  searchBackgroud: {
+  searchBackground: {
     backgroundColor: "#eef2e6",
   },
 });
