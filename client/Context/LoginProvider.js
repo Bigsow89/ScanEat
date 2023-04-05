@@ -24,10 +24,10 @@ const LoginProvider = ({ children }) => {
       setUser(res.data);
     
     })
-    .catch(err => {
-      console.log("vvvvvv", err);
+    .catch(error => {
+      console.log("vvvvvv", error);
     });
-}, []);
+}, []); 
 
   return (
     <LoginContext.Provider
