@@ -1,12 +1,8 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
-import AppNav from '../screens/AppNav'
+import AppNav from '../screens/AppNav';
 const Home = () => {
-  return (
-    <View style={styles.container}>
-      <AppNav/>
-    </View>
-  );
+  return <AppNav />;
 };
 
 const styles = StyleSheet.create({

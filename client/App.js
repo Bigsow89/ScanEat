@@ -1,24 +1,17 @@
-import { AppRegistry, StyleSheet } from "react-native";
-import React from "react";
-//import 'react-native-gesture-handler';
-import { name as appName } from "./app.json";
-import { registerRootComponent } from "expo";
-import { NavigationContainer } from "@react-navigation/native";
-import MainNavigator from "./components/MainNavigator";
-import LoginProvider from "./Context/LoginProvider";
-import ProductDetail from "./components/ProductDetail";
-const App = () => {
-  //const isLoggedIn = false;
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import Routers from '../client/Routers/index';
+import LoginProvider from './Context/LoginProvider';
+import StartScreen from './screens/StartScreen';
 
+const App = () => {
   return (
-    <>
-      <LoginProvider>
-        <NavigationContainer>
-          <MainNavigator />
-        </NavigationContainer>
-      </LoginProvider>
-      {/* <ProductDetail /> */}
-    </>
+    <LoginProvider>
+      <NavigationContainer>
+        <Routers />
+      </NavigationContainer>
+    </LoginProvider>
+
   );
 };
 export default App;

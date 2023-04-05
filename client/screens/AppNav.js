@@ -1,5 +1,6 @@
+import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, SafeAreaView } from "react-native";
 import ProductDetail from "../components/ProductDetail";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Icon } from "@rneui/themed";
@@ -10,6 +11,7 @@ import Profile from "./Profile";
 import { createStackNavigator } from "@react-navigation/stack";
 
 const SearchStack = createStackNavigator();
+
 const Tab = createBottomTabNavigator();
 
 function SearchStackNavigator() {
@@ -46,7 +48,9 @@ export default function AppNav() {
           }}
         >
           <Tab.Screen
-            name="Home"
+
+            name='HomeScreen'
+
             component={HomeScreen}
             options={{
               headerShown: false,
