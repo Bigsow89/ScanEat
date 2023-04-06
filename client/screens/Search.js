@@ -23,16 +23,17 @@ import {
   TouchableOpacity,
 } from "react-native";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigation } from "@react-navigation/native";
 const Search = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [matchingProduct, setMatchingProduct] = useState([]);
   const navigation = useNavigation();
+  const InputRef = useRef(null);
 
   const handleSearch = () => {
     axios
-      .get(`http://192.168.191.159:8000/api/products/search/${searchQuery}`)
+      .get(`http://192.168.189.2:8000/api/products/search/${searchQuery}`)
       .then((response) => {
         const filteredProducts = response.data.filter(
           (product) =>
@@ -45,6 +46,8 @@ const Search = () => {
               .includes(searchQuery.toLowerCase())
         );
         setMatchingProduct(filteredProducts);
+        setSearchQuery("");
+        InputRef.current.clear();
         console.warn(matchingProduct);
       })
       .catch((error) => console.log(error));
@@ -68,6 +71,7 @@ const Search = () => {
           <Center />
           <Input
             placeholder="Search"
+            ref={InputRef}
             variant="rounded"
             width="100%"
             borderRadius="20"

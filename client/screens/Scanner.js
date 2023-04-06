@@ -41,7 +41,7 @@ export default function Scanner() {
       setText(data);
       console.log(process.env.REACT_APP_SERVER_BASE_URL);
       const response = await axios.get(
-        `http://192.168.191.159:8000/api/products/scan/${data}`
+        `http://192.168.189.2:8000/api/products/scan/${data}`
       );
       setProductData(response.data);
       setIsOpen(true);
