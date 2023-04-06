@@ -11,7 +11,6 @@ import UserAvatar from 'react-native-user-avatar';
 
 export default function Settings() {
 
-  
   return (
     <View style={styles.AndroidSafeArea}>
       <ScrollView showsVerticalScrollIndicator={false}>

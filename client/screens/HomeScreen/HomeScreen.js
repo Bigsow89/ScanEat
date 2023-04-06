@@ -1,25 +1,25 @@
 import React, {useEffect, useState} from 'react';
-import { StyleSheet, StatusBar, Text, Image, SafeAreaView, FlatList, TouchableOpacity,} from 'react-native';
+import { StyleSheet, StatusBar, Text, Image, SafeAreaView, FlatList, TouchableOpacity, TouchableHighlight, View } from 'react-native';
 //import client from '../../components/api/client'
 //import { useLogin } from '../../Context/LoginProvider';
 import axios from 'axios';
+import { SwipeListView } from 'react-native-swipe-list-view';
 import {
   VStack,
   HStack,
-
   Spacer,
   NativeBaseProvider,
-
-
   Box,
- 
 } from "native-base"
+
 import { useNavigation } from "@react-navigation/native";
 
 const  Home = () => {
   const navigation = useNavigation();
   //const { setIsLoggedIn, setProfile } = useLogin();
 const [history, setHistory] = useState([]);
+
+
     useEffect(() => {
     axios
       .get('http://192.168.191.159:8000/auth/loggedin-user')
@@ -33,10 +33,27 @@ const [history, setHistory] = useState([]);
   }, []);  
 
 
+  
+ 
 
-  return (
+ /*  const deleteItem = (e) => {
+    console.log('String', e.target)
+    axios
+      .delete(
+        `{http://192.168.191.159:8000/api/users/${user._id}/history/${product._id}`
+      ).then(res => {
+        setHistory(res.data.history);
+      })
+      
+      .catch((e) => console.log(e)); 
+  };
+  const onItemOpen = rowKey => {
+    console.log('This row opened', rowKey);
+  };
+ */
+ return (
    
-    <SafeAreaView style={[styles.container, styles.AndroidSafeArea]}>
+     <SafeAreaView style={[styles.container, styles.AndroidSafeArea]}>
     {/*   <Image
         source={require('../../assets/empty-home-page.png')}
         style={styles.image}
@@ -44,8 +61,10 @@ const [history, setHistory] = useState([]);
       <Text style={styles.text}>Hey, wanna scan some items?</Text> */}
           <FlatList
           data={history}
+          keyExtractor={item => item._id.toString()}
           renderItem={({ item }) => (
             <TouchableOpacity
+
               onPress={() =>
                 navigation.navigate("ProductDetail", { productData: item })
               }
@@ -100,25 +119,41 @@ const [history, setHistory] = useState([]);
                 </HStack>
               </Box>
             </TouchableOpacity>
+           
           )}
-          keyExtractor={(item) => item.id}
+          renderRight={({ item }) => renderSwipeDelete(item._id)}
+        
         />
     </SafeAreaView>
-  
-  
+   
+  );
+
+                  }
+
+
+
+export default () =>{
+
+
+  return (
+    <NativeBaseProvider>
+    <SafeAreaView style={[styles.container, styles.AndroidSafeArea]}>
+      <Home />
+      
+    </SafeAreaView>
+  </NativeBaseProvider>
   );
 }
-
-export default () => {
-  return (
+ /*  return (
     <NativeBaseProvider>
       <SafeAreaView style={[styles.container, styles.AndroidSafeArea]}>
         <Home />
         
       </SafeAreaView>
     </NativeBaseProvider>
-  );
-};
+  ); */
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -126,6 +161,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#eef2e6',
   },
+  
   image: {
     width: 240,
     height: 240,
@@ -139,4 +175,6 @@ const styles = StyleSheet.create({
   AndroidSafeArea: {
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
+  
+  
 });

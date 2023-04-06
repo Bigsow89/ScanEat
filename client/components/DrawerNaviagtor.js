@@ -100,6 +100,7 @@ const CustomDrawer = (props) => {
         <Text>Log Out</Text>
         
       </TouchableOpacity>
+  
     </View>
   );
 };

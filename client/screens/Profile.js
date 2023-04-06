@@ -1,4 +1,4 @@
-import React from 'react';
+import React , {useState, useEffect} from 'react';
 import {
   StyleSheet,
   StatusBar,
@@ -18,12 +18,48 @@ import UserAvatar from 'react-native-user-avatar';
 import AuthNav from './AuthNav';
 import LoginScreen from './LoginScreen/LoginScreen';
 import { useNavigation } from '@react-navigation/native';
-
+import axios from 'axios';
+import { useLogin } from '../Context/LoginProvider';
+import DrawerNaviagtor from '../components/DrawerNaviagtor'
 export default function Profile() {
   const navigation = useNavigation();
   const onLogOutPressed = () => {
     navigation.navigate('Login');
   };
+
+  const [users, setUsers] = useState([])
+  const { setIsLoggedIn,  user } = useLogin();
+  const handleLogout =  () => {
+    try{
+      axios.post('http://192.168.191.159:8000/auth/logout', {})
+  
+
+      .then(res => {
+       setIsLoggedIn(false);
+      
+    })
+  //console.log(profile.name)
+      
+    }catch{
+      (error) => {
+        console.error(error)
+    }
+    
+  };
+}
+  useEffect(() => {
+  
+    axios
+      .get(`http://192.168.191.159:8000/auth/loggedin-user`)
+      
+        .then(res => {
+          setUsers(res.data);
+         //setIsLoggedin(true);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      }, []);  
   onShare = () => {
     let text =
       "Hello, I just installed this App for scanning products if they include insects or not. I found it so helpful. I'm going to start using it in my daily life. ";
@@ -56,7 +92,7 @@ export default function Profile() {
           {/* <Image source={profileImage} style={{width:140, height:140, borderRadius:100, marginTop:-70}}/> */}
           <UserAvatar
             size={100}
-            name='Ahmad Chamas'
+            name={users.name}
             style={{
               width: 140,
               height: 140,
@@ -68,7 +104,7 @@ export default function Profile() {
         </TouchableOpacity>
         <View style={{ alignItems: 'center' }}>
           <Text style={{ fontSize: 25, fontWeight: 'bold', padding: 10 }}>
-            Ahmad Chamas
+            {users.name}
           </Text>
           <Text
             style={{
@@ -77,11 +113,11 @@ export default function Profile() {
               color: 'grey',
               marginBottom: 15,
             }}>
-            Email@gmail.com
+            {users.email}
           </Text>
         </View>
 
-        <TouchableOpacity style={styles.buttonIcons}>
+       {/*  <TouchableOpacity style={styles.buttonIcons}>
           <Icon
             name='favorite-border'
             size={25}
@@ -89,7 +125,7 @@ export default function Profile() {
             paddingTop={3}
           />
           <Text style={{ padding: 5 }}>Your Favoraite</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <TouchableOpacity
           style={styles.buttonIcons}
           onPress={this.onShare}>
@@ -118,7 +154,7 @@ export default function Profile() {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.buttonIcons}
-          onPress={onLogOutPressed}>
+          onPress={handleLogout}>
           <SimpleLineIcons
             name='logout'
             size={25}
