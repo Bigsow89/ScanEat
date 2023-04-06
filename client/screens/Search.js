@@ -168,6 +168,7 @@ export default () => {
     <NativeBaseProvider>
       <SafeAreaView style={[styles.container, styles.AndroidSafeArea]}>
         <Search />
+        
       </SafeAreaView>
     </NativeBaseProvider>
   );
