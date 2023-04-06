@@ -36,6 +36,7 @@ export default function Scanner() {
   // What happens when we scan the bar code
   const handleBarCodeScanned = async ({ type, data }) => {
     try {
+      
       setScanned(true);
       setText(data);
       console.log(process.env.REACT_APP_SERVER_BASE_URL);
@@ -128,6 +129,7 @@ export default function Scanner() {
           </SafeAreaView>
         </Modal>
       )}
+   
     </NativeBaseProvider>
   );
 }

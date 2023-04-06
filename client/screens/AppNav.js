@@ -11,7 +11,7 @@ import Profile from "./Profile";
 import { createStackNavigator } from "@react-navigation/stack";
 
 const SearchStack = createStackNavigator();
-
+const HistoryStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 function SearchStackNavigator() {
@@ -34,7 +34,28 @@ function SearchStackNavigator() {
     >
       <SearchStack.Screen name="Search" component={Search} />
       <SearchStack.Screen name="ProductDetail" component={ProductDetail} />
+      
     </SearchStack.Navigator>
+  );
+}
+
+
+function HistoryStackNavigator() {
+  return (
+
+      <HistoryStack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: "#eef2e6",
+          elevation: 0, // remove shadow on Android
+          shadowOpacity: 0, // remove shadow on iOS
+        },
+      }}
+    >
+      <HistoryStack.Screen name="Home" component={HomeScreen} />
+      <HistoryStack.Screen name="ProductDetail" component={ProductDetail} />
+      
+    </HistoryStack.Navigator>
   );
 }
 
@@ -59,7 +80,7 @@ export default function AppNav() {
 
             name='HomeScreen'
 
-            component={HomeScreen}
+            component={HistoryStackNavigator}
             options={{
               headerShown: false,
               tabBarIcon: (props) => (
