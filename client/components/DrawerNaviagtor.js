@@ -12,7 +12,7 @@ import UserAvatar from 'react-native-user-avatar';
 import Scanner from '../screens/Scanner';
 import Search from '../screens/Search';
 import Profile from '../screens/Profile';
-import {client} from './api/client';
+
 
 const Drawer = createDrawerNavigator();
 
@@ -21,7 +21,7 @@ const CustomDrawer = (props) => {
 
  
   
-  const { setIsLoggedIn, user } = useLogin();
+  const { setIsLoggedIn,  user } = useLogin();
  
 
  /*  useEffect(() => {
