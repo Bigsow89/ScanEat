@@ -151,7 +151,7 @@ export default function Profile() {
           />
           <Text style={{ padding: 5 }}>Tell your Friend</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonIcons}>
+        <TouchableOpacity style={styles.buttonIcons} onPress={() => navigation.navigate('Support')}>
           <IconSimpleLineIcons
             name='user-following'
             size={25}

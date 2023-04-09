@@ -8,9 +8,11 @@ import { useLogin } from '../Context/LoginProvider';
 import axios from 'axios';
 
 export default function Settings() {
-  const [users, setUsers] = useState([])
+  const [users, setUsers] = useState({
+    username: "",
+  })
   const { setIsLoggedIn,  user } = useLogin();
-
+ 
   useEffect(() => {
   
     axios
@@ -24,6 +26,24 @@ export default function Settings() {
           console.log(err);
         });
       }, []);  
+
+
+      const handleChange = (e) => {
+        const { name, value } = e.target;
+    
+        setUsers({ ...users, [name]: value });
+      };
+    
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        axios
+          .put(
+            `http://192.168.191.159:8000/api/users/${_id}`,
+            pokemon
+          )
+          .then((res) => navigate(`/users/${id}`))
+          .catch((e) => console.log(e));
+      };
 
   return (
     <View style={styles.AndroidSafeArea}>

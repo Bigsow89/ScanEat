@@ -9,6 +9,7 @@ import Scanner from "./Scanner";
 import Search from "./Search";
 import Profile from "./Profile";
 import Settings from "./Settings";
+import SupportScreen from './SupportScreen';
 import { createStackNavigator } from "@react-navigation/stack";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -174,6 +175,7 @@ export default function AppNav() {
                 component={Profile}
               />
               <SettingsStack.Screen name="Settings" component={Settings} />
+              <SettingsStack.Screen name="Support" component={SupportScreen} />
             </SettingsStack.Navigator>
           )}
         </Tab.Screen>
