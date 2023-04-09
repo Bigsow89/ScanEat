@@ -2,6 +2,7 @@ import React , {useState, useEffect} from 'react';
 import {
   StyleSheet,
   StatusBar,
+  Button,
   Text,
   ScrollView,
   TouchableOpacity,
@@ -9,26 +10,32 @@ import {
   Platform,
   Share,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+//import Settings from './Settings';
 import IconFeather from 'react-native-vector-icons/Feather';
+
 import IconSimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
-import Arrow from 'react-native-vector-icons/Ionicons';
+import { createStackNavigator } from '@react-navigation/stack';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import UserAvatar from 'react-native-user-avatar';
-import AuthNav from './AuthNav';
-import LoginScreen from './LoginScreen/LoginScreen';
+
+
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import { useLogin } from '../Context/LoginProvider';
-import DrawerNaviagtor from '../components/DrawerNaviagtor'
+
 export default function Profile() {
+ 
   const navigation = useNavigation();
+
+
   const onLogOutPressed = () => {
     navigation.navigate('Login');
   };
 
   const [users, setUsers] = useState([])
   const { setIsLoggedIn,  user } = useLogin();
+
+   
   const handleLogout =  () => {
     try{
       axios.post('http://192.168.191.159:8000/auth/logout', {})
@@ -47,7 +54,7 @@ export default function Profile() {
     
   };
 }
-  useEffect(() => {
+ useEffect(() => {
   
     axios
       .get(`http://192.168.191.159:8000/auth/loggedin-user`)
@@ -59,7 +66,7 @@ export default function Profile() {
         .catch(err => {
           console.log(err);
         });
-      }, []);  
+      }, []);   
   onShare = () => {
     let text =
       "Hello, I just installed this App for scanning products if they include insects or not. I found it so helpful. I'm going to start using it in my daily life. ";
@@ -79,6 +86,22 @@ export default function Profile() {
     );
   };
   return (
+
+   
+    
+    
+   
+
+
+
+
+
+
+
+
+
+
+
     <View style={[styles.AndroidSafeArea, styles.container]}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View
@@ -89,7 +112,7 @@ export default function Profile() {
             height: 150,
           }}></View>
         <TouchableOpacity style={{ alignItems: 'center' }}>
-          {/* <Image source={profileImage} style={{width:140, height:140, borderRadius:100, marginTop:-70}}/> */}
+        
           <UserAvatar
             size={100}
             name={users.name}
@@ -117,15 +140,7 @@ export default function Profile() {
           </Text>
         </View>
 
-       {/*  <TouchableOpacity style={styles.buttonIcons}>
-          <Icon
-            name='favorite-border'
-            size={25}
-            color='#0c8079'
-            paddingTop={3}
-          />
-          <Text style={{ padding: 5 }}>Your Favoraite</Text>
-        </TouchableOpacity> */}
+     
         <TouchableOpacity
           style={styles.buttonIcons}
           onPress={this.onShare}>
@@ -144,13 +159,19 @@ export default function Profile() {
           />
           <Text style={{ padding: 5 }}>Support</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonIcons}>
+        <TouchableOpacity style={styles.buttonIcons} onPress={() => navigation.navigate('Settings')}>
+     
           <IconFeather
             name='settings'
             size={25}
             color='#0c8079'
+          
           />
-          <Text style={{ padding: 5 }}>Settings</Text>
+    {/*     <Button
+        title="Settings"
+        
+      /> */}
+        <Text style={{ padding: 5 }}>Settings</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.buttonIcons}
@@ -163,7 +184,7 @@ export default function Profile() {
           <Text style={{ padding: 5, fontWeight: 'bold' }}>Logout</Text>
         </TouchableOpacity>
       </ScrollView>
-    </View>
+    </View> 
   );
 }
 
