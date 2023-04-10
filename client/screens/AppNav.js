@@ -1,5 +1,7 @@
+
 import { StyleSheet, Text, View, SafeAreaView } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
+
 import { StatusBar } from "expo-status-bar";
 import ProductDetail from "../components/ProductDetail";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -8,12 +10,18 @@ import HomeScreen from "./HomeScreen";
 import Scanner from "./Scanner";
 import Search from "./Search";
 import Profile from "./Profile";
+import Settings from "./Settings";
+import SupportScreen from './SupportScreen';
 import { createStackNavigator } from "@react-navigation/stack";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
 
 const SearchStack = createStackNavigator();
 const HistoryStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
+const SettingsStack = createNativeStackNavigator();
+const HomeStack = createNativeStackNavigator();
 function SearchStackNavigator() {
   return (
     <SearchStack.Navigator
@@ -30,6 +38,29 @@ function SearchStackNavigator() {
     </SearchStack.Navigator>
   );
 }
+/* function SettingsScreen({ navigation }) {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Settings Screen</Text>
+      <Button
+        title="Go to Profile"
+        onPress={() => navigation.navigate('Settings')}
+      />
+    </View>
+  );
+} */
+
+/* function ProfileScreen({ navigation }) {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Profile Screen</Text>
+      <Button
+        title="Go to Settings"
+        onPress={() => navigation.navigate('Settings')}
+      />
+    </View>
+  );
+} */
 
 function HistoryStackNavigator() {
   return (
@@ -47,6 +78,10 @@ function HistoryStackNavigator() {
     </HistoryStack.Navigator>
   );
 }
+
+
+
+
 
 export default function AppNav() {
   return (
@@ -103,18 +138,50 @@ export default function AppNav() {
               }}
             />
 
-            <Tab.Screen
-              name="profile"
-              component={Profile}
-              options={{
-                headerShown: false,
-                tabBarIcon: (props) => (
-                  <Icon name="user" type="feather" color={props.color} />
-                ),
-              }}
+          {/*  <Tab.Screen
+            name="profile"
+            component={Profile}
+            options={{
+              headerShown: false,
+              tabBarIcon: (props) => (
+                <Icon name="user" type="feather" color={props.color} />
+              ),
+            }}
             />
-          </Tab.Navigator>
-        </SafeAreaView>
+            {() => (
+              <SettingsStack.Navigator>
+                <SettingsStack.Screen
+                  name="Settings"
+                  component={Settings}
+                />
+                <SettingsStack.Screen name="Profile" component={Profile} />
+              </SettingsStack.Navigator>
+            )}  */}
+
+          <Tab.Screen name="Profil"  options={{
+              headerShown: false,
+              tabBarIcon: (props) => (
+                <Icon name="user" type="feather" color={props.color} />
+              ),
+            }}>
+          {() => (
+            <SettingsStack.Navigator>
+              <SettingsStack.Screen
+                name="Profile"
+                component={Profile}
+              />
+              <SettingsStack.Screen name="Settings" component={Settings} />
+              <SettingsStack.Screen name="Support" component={SupportScreen} />
+            </SettingsStack.Navigator>
+          )}
+        </Tab.Screen>
+     
+     
+          
+          
+        </Tab.Navigator>
+        
+      </SafeAreaView>
 
         <StatusBar style="auto" />
       </NavigationContainer>

@@ -176,8 +176,9 @@ export default () => {
         <Home />
       </SafeAreaView>
     </NativeBaseProvider>
-  );
-};
+  ); 
+
+  }
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -185,6 +186,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#eef2e6",
   },
+  
   image: {
     width: 240,
     height: 240,
@@ -226,4 +228,6 @@ const styles = StyleSheet.create({
   AndroidSafeArea: {
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
+  
+  
 });
