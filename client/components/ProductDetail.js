@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -8,19 +8,30 @@ import {
   FlatList,
   SafeAreaView,
   TextInput,
-  Button,
   Platform,
   KeyboardAvoidingView,
   Dimensions,
   TouchableOpacity,
 } from "react-native";
 import axios from "axios";
+import { useNavigation } from "@react-navigation/native";
 
 const ProductDetail = ({ route }) => {
   const { productData } = route.params;
   const [newComment, setNewComment] = useState("");
+  const [altProducts, setAltProducts] = useState([]);
   const screenHeight = Dimensions.get("window").height;
   const dynamicKeyboardOffset = screenHeight * 0.25;
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    axios.get("http://192.168.189.2:8000/api/products").then((response) => {
+      const filteredProducts = response.data.filter(
+        (product) => product._id !== productData._id
+      );
+      setAltProducts(filteredProducts);
+    });
+  }, [altProducts]);
 
   const handleCommentSubmit = async () => {
     try {
@@ -29,9 +40,8 @@ const ProductDetail = ({ route }) => {
         return;
       }
 
-      // Replace this URL with your backend API endpoint
       const response = await axios.post(
-        `http://192.168.191.159:8000/api/products/${productData._id}/comment`,
+        `http://192.168.189.2:8000/api/products/${productData._id}/comment`,
         { comment: newComment }
       );
 
@@ -70,7 +80,7 @@ const ProductDetail = ({ route }) => {
                 </View>
               </View>
               <Text style={styles.description}>{productData.description}</Text>
-              {/* Render ingredients and minerals if available */}
+
               {productData.ingredients && (
                 <>
                   <Text style={styles.sectionTitle}>Ingredients</Text>
@@ -93,20 +103,28 @@ const ProductDetail = ({ route }) => {
               )}
             </View>
           </View>
-          {/* Render alternative products if available */}
-          {productData.alternativeProducts && (
+
+          {altProducts && (
             <View style={styles.alt}>
               <Text style={styles.sectionTitle}>Alternative Products</Text>
               <FlatList
                 horizontal
-                data={productData.alternativeProducts}
+                data={altProducts}
                 renderItem={({ item }) => (
-                  <Image
-                    source={{ uri: item.image }}
-                    style={styles.altProductImage}
-                  />
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate("ProductDetail", {
+                        productData: item,
+                      })
+                    }
+                  >
+                    <Image
+                      source={{ uri: item.photos }}
+                      style={styles.altProductImage}
+                    />
+                  </TouchableOpacity>
                 )}
-                keyExtractor={(item) => item.id.toString()}
+                keyExtractor={(item) => item._id.toString()}
               />
             </View>
           )}
