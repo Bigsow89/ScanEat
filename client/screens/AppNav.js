@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { StyleSheet, Text, View, SafeAreaView } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import ProductDetail from "../components/ProductDetail";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -16,13 +16,6 @@ const Tab = createBottomTabNavigator();
 
 function SearchStackNavigator() {
   return (
-
-    
- 
-
-   
-
-
     <SearchStack.Navigator
       screenOptions={{
         headerStyle: {
@@ -34,16 +27,13 @@ function SearchStackNavigator() {
     >
       <SearchStack.Screen name="Search" component={Search} />
       <SearchStack.Screen name="ProductDetail" component={ProductDetail} />
-      
     </SearchStack.Navigator>
   );
 }
 
-
 function HistoryStackNavigator() {
   return (
-
-      <HistoryStack.Navigator
+    <HistoryStack.Navigator
       screenOptions={{
         headerStyle: {
           backgroundColor: "#eef2e6",
@@ -52,9 +42,8 @@ function HistoryStackNavigator() {
         },
       }}
     >
-      <HistoryStack.Screen name="Home" component={HomeScreen} />
+      <HistoryStack.Screen name="History" component={HomeScreen} />
       <HistoryStack.Screen name="ProductDetail" component={ProductDetail} />
-      
     </HistoryStack.Navigator>
   );
 }
@@ -62,70 +51,73 @@ function HistoryStackNavigator() {
 export default function AppNav() {
   return (
     <>
-   <NavigationContainer independent={true}>
-      <SafeAreaView style={[styles.AndroidSafeArea, styles.bg]}>
-        <Tab.Navigator
-          screenOptions={{
-            tabBarShowLabel: false,
-            tabBarActiveTintColor: "#c9d7ae",
-            tabBarHideOnKeyboard: true,
-            tabBarInactiveTintColor: "#ffffff",
-            tabBarStyle: {
-              backgroundColor: "#0c8079",
-              height: 60,
-            },
-          }}
-        >
-          <Tab.Screen
-
-            name='HomeScreen'
-
-            component={HistoryStackNavigator}
-            options={{
-              headerShown: false,
-              tabBarIcon: (props) => (
-                <Icon name="home" type="feather" color={props.color} />
-              ),
+      <NavigationContainer independent={true}>
+        <SafeAreaView style={[styles.AndroidSafeArea, styles.bg]}>
+          <Tab.Navigator
+            screenOptions={{
+              tabBarShowLabel: false,
+              tabBarActiveTintColor: "#c9d7ae",
+              tabBarInactiveTintColor: "#ffffff",
+              tabBarStyle: {
+                backgroundColor: "#0c8079",
+                height: Platform.OS === "ios" ? 80 : 60,
+                justifyContent: "center",
+                paddingTop: Platform.OS === "ios" ? 20 : 0,
+                paddingBottom: Platform.OS === "ios" ? 16 : 0, // Add extra padding for iOS
+                safeAreaInsets: { top: 0, bottom: 0 },
+              },
+              tabBarItemStyle: {
+                justifyContent: "center",
+                paddingVertical: 6, // Add padding to the tab bar items
+              },
             }}
-          />
-          <Tab.Screen
-            name="Scanner"
-            component={Scanner}
-            options={{
-              headerShown: false,
-              tabBarIcon: (props) => (
-                <Icon name="maximize" type="feather" color={props.color} />
-              ),
-            }}
-          />
-          <Tab.Screen
-            name="Search"
-            component={SearchStackNavigator}
-            options={{
-              headerShown: false,
-              tabBarIcon: (props) => (
-                <Icon name="search" type="feather" color={props.color} />
-              ),
-            }}
-          />
+          >
+            <Tab.Screen
+              name="HomeScreen"
+              component={HistoryStackNavigator}
+              options={{
+                headerShown: false,
+                tabBarIcon: (props) => (
+                  <Icon name="home" type="feather" color={props.color} />
+                ),
+              }}
+            />
+            <Tab.Screen
+              name="Scanner"
+              component={Scanner}
+              options={{
+                headerShown: false,
+                tabBarIcon: (props) => (
+                  <Icon name="maximize" type="feather" color={props.color} />
+                ),
+              }}
+            />
+            <Tab.Screen
+              name="Search"
+              component={SearchStackNavigator}
+              options={{
+                headerShown: false,
+                tabBarIcon: (props) => (
+                  <Icon name="search" type="feather" color={props.color} />
+                ),
+              }}
+            />
 
-          <Tab.Screen
-            name="profile"
-            component={Profile}
-            options={{
-              headerShown: false,
-              tabBarIcon: (props) => (
-                <Icon name="user" type="feather" color={props.color} />
-              ),
-            }}
-          />
-        </Tab.Navigator>
-      </SafeAreaView>
+            <Tab.Screen
+              name="profile"
+              component={Profile}
+              options={{
+                headerShown: false,
+                tabBarIcon: (props) => (
+                  <Icon name="user" type="feather" color={props.color} />
+                ),
+              }}
+            />
+          </Tab.Navigator>
+        </SafeAreaView>
 
-      <StatusBar style='auto' />
+        <StatusBar style="auto" />
       </NavigationContainer>
-
-
     </>
   );
 }
