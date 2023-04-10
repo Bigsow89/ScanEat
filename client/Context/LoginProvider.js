@@ -7,6 +7,7 @@ const LoginProvider = ({ children }) => {
   const [profile, setProfile] = useState({});
   const [user, setUser] = useState([]);
 
+
   useEffect(() => {
     axios
       .get("http://192.168.189.2:8000/auth/loggedin-user")
@@ -19,19 +20,21 @@ const LoginProvider = ({ children }) => {
   useEffect(() => {
     axios
       .get("http://192.168.189.2:8000/auth/loggedin-user")
+
       .then((res) => {
         setUser(res.data);
       })
       .catch((err) => {
+
         console.log("vvvvvv", err);
       });
   }, []);
 
 
+
   return (
     <LoginContext.Provider
-      value={{ isLoggedIn, setIsLoggedIn, profile, setProfile, user, setUser }}
-    >
+      value={{ isLoggedIn, setIsLoggedIn, profile, setProfile, user, setUser }}>
       {children}
     </LoginContext.Provider>
   );
