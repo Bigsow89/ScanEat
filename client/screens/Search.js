@@ -4,8 +4,6 @@ import {
   HStack,
   Input,
   Spacer,
-  Button,
-  IconButton,
   Icon,
   Text,
   NativeBaseProvider,
@@ -21,11 +19,10 @@ import {
   SafeAreaView,
   StatusBar,
   TouchableOpacity,
-} from "react-native";
-import axios from "axios";
-import { useState, useRef } from "react";
-import { useNavigation } from "@react-navigation/native";
-
+} from 'react-native';
+import axios from 'axios';
+import { useState, useRef } from 'react';
+import { useNavigation } from '@react-navigation/native';
 
 const Search = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -48,7 +45,7 @@ const Search = () => {
               .includes(searchQuery.toLowerCase())
         );
         setMatchingProduct(filteredProducts);
-        setSearchQuery("");
+        setSearchQuery('');
         InputRef.current.clear();
         console.warn(matchingProduct);
       })
@@ -73,13 +70,13 @@ const Search = () => {
           space={5}>
           <Center />
           <Input
-            placeholder="Search"
+            placeholder='Search'
             ref={InputRef}
-            variant="rounded"
-            width="100%"
-            borderRadius="20"
-            py="2"
-            px="2"
+            variant='rounded'
+            width='100%'
+            borderRadius='20'
+            py='2'
+            px='2'
             InputLeftElement={
               <Icon
                 ml='2'
@@ -169,7 +166,6 @@ export default () => {
     <NativeBaseProvider>
       <SafeAreaView style={[styles.container, styles.AndroidSafeArea]}>
         <Search />
-        
       </SafeAreaView>
     </NativeBaseProvider>
   );

@@ -1,6 +1,4 @@
 import React, { useRef, useState } from 'react';
-import { logo2 } from '../assets/logo2.png';
-
 import {
   ScrollView,
   StyleSheet,
@@ -9,7 +7,6 @@ import {
   Dimensions,
   Image,
 } from 'react-native';
-
 import FormHeader from './FormHeader';
 import FormSelectorBtn from './FormSelectorBtn';
 import SignupForm from './SignupForm';
