@@ -57,11 +57,18 @@ export default function AppNav() {
             screenOptions={{
               tabBarShowLabel: false,
               tabBarActiveTintColor: "#c9d7ae",
-              tabBarHideOnKeyboard: true,
               tabBarInactiveTintColor: "#ffffff",
               tabBarStyle: {
                 backgroundColor: "#0c8079",
-                height: 60,
+                height: Platform.OS === "ios" ? 80 : 60,
+                justifyContent: "center",
+                paddingTop: Platform.OS === "ios" ? 20 : 0,
+                paddingBottom: Platform.OS === "ios" ? 16 : 0, // Add extra padding for iOS
+                safeAreaInsets: { top: 0, bottom: 0 },
+              },
+              tabBarItemStyle: {
+                justifyContent: "center",
+                paddingVertical: 6, // Add padding to the tab bar items
               },
             }}
           >

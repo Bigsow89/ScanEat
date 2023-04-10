@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { Svg, Path } from "react-native-svg";
 import * as Animatable from "react-native-animatable";
+import { Audio } from "expo-av";
 
 import {
   VStack,
@@ -33,6 +34,19 @@ const Scanner = () => {
   const [productData, setProductData] = useState(null);
   const [text, setText] = useState();
   const [isOpen, setIsOpen] = useState(false);
+  const [sound, setSound] = React.useState();
+
+  async function playSound() {
+    console.log("Loading Sound");
+    const { sound } = await Audio.Sound.createAsync(
+      require("../assets/beep-07a.mp3")
+    );
+    setSound(sound);
+
+    console.log("Playing Sound");
+    await sound.playAsync();
+  }
+
   const askForCameraPermission = () => {
     (async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
@@ -42,7 +56,13 @@ const Scanner = () => {
   // Request Camera Permission
   useEffect(() => {
     askForCameraPermission();
-  }, []);
+    return sound
+      ? () => {
+          console.log("Unloading Sound");
+          sound.unloadAsync();
+        }
+      : undefined;
+  }, [sound]);
   useEffect(() => {
     setTimeout(() => {
       setShowCheck(false);
@@ -51,6 +71,7 @@ const Scanner = () => {
   // What happens when we scan the bar code
   const handleBarCodeScanned = async ({ type, data }) => {
     try {
+      playSound();
       setScanned(true);
       setShowCheck(true);
       setText(data);
