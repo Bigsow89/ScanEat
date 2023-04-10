@@ -6,7 +6,6 @@ import { isValidEmail, isValidObjField, updateError } from './utils/methods';
 import FormContainer from './FormContainer';
 import FormInput from './FormInput';
 import FormSubmitButton from './FormSubmitButton';
-import CustomButton from './CustomButton/CustomButton';
 import SocialSignInButtons from './SocialSignInButtons/SocialSignInButtons';
 
 const LoginForm = () => {

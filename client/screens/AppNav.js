@@ -1,18 +1,18 @@
-import { StyleSheet, Text, View, SafeAreaView } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-import { StatusBar } from "expo-status-bar";
-import ProductDetail from "../components/ProductDetail";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Icon } from "@rneui/themed";
-import HomeScreen from "./HomeScreen";
-import Scanner from "./Scanner";
-import Search from "./Search";
-import Profile from "./Profile";
-import Settings from "./Settings";
+import { StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { StatusBar } from 'expo-status-bar';
+import ProductDetail from '../components/ProductDetail';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Icon } from '@rneui/themed';
+import HomeScreen from './HomeScreen';
+import Scanner from './Scanner';
+import Search from './Search';
+import Profile from './Profile';
+import Settings from './Settings';
 import SupportScreen from './SupportScreen';
-import { createStackNavigator } from "@react-navigation/stack";
+import { createStackNavigator } from '@react-navigation/stack';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
 
 const SearchStack = createStackNavigator();
 const HistoryStack = createStackNavigator();
@@ -92,21 +92,51 @@ function HistoryStackNavigator() {
     <HistoryStack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: "#eef2e6",
+          backgroundColor: '#eef2e6',
           elevation: 0, // remove shadow on Android
           shadowOpacity: 0, // remove shadow on iOS
         },
-      }}
-    >
-      <HistoryStack.Screen name="History" component={HomeScreen} />
-      <HistoryStack.Screen name="ProductDetail" component={ProductDetail} />
+        headerLeft: null,
+      }}>
+      <HistoryStack.Screen
+        name='History'
+        component={HomeScreen}
+        options={{
+          headerTitle: 'My Scan-Eat History',
+          headerLeft: null,
+          headerShown: true,
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 30,
+            color: 'black',
+          },
+        }}
+      />
+      <HistoryStack.Screen
+        name='ProductDetail'
+        component={ProductDetail}
+        options={({ navigation }) => ({
+          headerTitle: 'Product Details',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 24,
+            color: 'black',
+          },
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Ionicons
+                name='arrow-undo-outline'
+                size={24}
+                color='#333'
+                style={{ paddingLeft: 10 }}
+              />
+            </TouchableOpacity>
+          ),
+        })}
+      />
     </HistoryStack.Navigator>
   );
 }
-
-
-
-
 
 export default function AppNav({ initialRouteName }) {
   return (
@@ -114,42 +144,50 @@ export default function AppNav({ initialRouteName }) {
       <NavigationContainer independent={true}>
         <SafeAreaView style={[styles.AndroidSafeArea, styles.bg]}>
           <Tab.Navigator
+            initialRouteName={initialRouteName}
             screenOptions={{
               tabBarShowLabel: false,
-              tabBarActiveTintColor: "#c9d7ae",
-              tabBarInactiveTintColor: "#ffffff",
+              tabBarActiveTintColor: '#c9d7ae',
+              tabBarInactiveTintColor: '#ffffff',
               tabBarHideOnKeyboard: true,
               tabBarStyle: {
-                backgroundColor: "#0c8079",
-                height: Platform.OS === "ios" ? 80 : 60,
-                justifyContent: "center",
-                paddingTop: Platform.OS === "ios" ? 20 : 0,
-                paddingBottom: Platform.OS === "ios" ? 16 : 0, // Add extra padding for iOS
+                backgroundColor: '#0c8079',
+                height: Platform.OS === 'ios' ? 80 : 60,
+                justifyContent: 'center',
+                paddingTop: Platform.OS === 'ios' ? 20 : 0,
+                paddingBottom: Platform.OS === 'ios' ? 16 : 0, // Add extra padding for iOS
                 safeAreaInsets: { top: 0, bottom: 0 },
               },
               tabBarItemStyle: {
-                justifyContent: "center",
+                justifyContent: 'center',
                 paddingVertical: 6, // Add padding to the tab bar items
               },
-            }}
-          >
+            }}>
             <Tab.Screen
-              name="HomeScreen"
+              name='HomeScreen'
               component={HistoryStackNavigator}
               options={{
                 headerShown: false,
                 tabBarIcon: (props) => (
-                  <Icon name="home" type="feather" color={props.color} />
+                  <Icon
+                    name='home'
+                    type='feather'
+                    color={props.color}
+                  />
                 ),
               }}
             />
             <Tab.Screen
-              name="Scanner"
+              name='Scanner'
               component={Scanner}
               options={{
                 headerShown: false,
                 tabBarIcon: (props) => (
-                  <Icon name="maximize" type="feather" color={props.color} />
+                  <Icon
+                    name='maximize'
+                    type='feather'
+                    color={props.color}
+                  />
                 ),
               }}
             />
@@ -167,26 +205,38 @@ export default function AppNav({ initialRouteName }) {
                 ),
               }}
             />
-          <Tab.Screen name="Profil"  options={{
-              headerShown: false,
-              tabBarIcon: (props) => (
-                <Icon name="user" type="feather" color={props.color} />
-              ),
-            }}>
-          {() => (
-            <SettingsStack.Navigator>
-              <SettingsStack.Screen
-                name="Profile"
-                component={Profile}
-              />
-              <SettingsStack.Screen name="Settings" component={Settings} />
-              <SettingsStack.Screen name="Support" component={SupportScreen} />
-            </SettingsStack.Navigator>
-          )}
-        </Tab.Screen>
-        </Tab.Navigator>        
-      </SafeAreaView>
-        <StatusBar style="auto" />
+            <Tab.Screen
+              name='Profil'
+              options={{
+                headerShown: false,
+                tabBarIcon: (props) => (
+                  <Icon
+                    name='user'
+                    type='feather'
+                    color={props.color}
+                  />
+                ),
+              }}>
+              {() => (
+                <SettingsStack.Navigator>
+                  <SettingsStack.Screen
+                    name='Profile'
+                    component={Profile}
+                  />
+                  <SettingsStack.Screen
+                    name='Settings'
+                    component={Settings}
+                  />
+                  <SettingsStack.Screen
+                    name='Support'
+                    component={SupportScreen}
+                  />
+                </SettingsStack.Navigator>
+              )}
+            </Tab.Screen>
+          </Tab.Navigator>
+        </SafeAreaView>
+        <StatusBar style='auto' />
       </NavigationContainer>
     </>
   );

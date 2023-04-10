@@ -1,12 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
-import axios from 'axios';
-import { Text } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
-
 import AppForm from '../components/AppForm';
-
-import UserProfile from '../screens/Profile';
-import {useLogin} from '../Context/LoginProvider';
+import { useLogin } from '../Context/LoginProvider';
 import DrawerNavigator from './DrawerNaviagtor';
 import Profile from '../screens/Profile';
 
@@ -23,7 +18,6 @@ const StackNavigator = () => {
         component={Profile}
         name='UserProfile'
       />
-
     </Stack.Navigator>
   );
 };
@@ -31,5 +25,5 @@ const StackNavigator = () => {
 const MainNavigator = () => {
   const { isLoggedIn } = useLogin();
   return isLoggedIn ? <DrawerNavigator /> : <StackNavigator />;
-}
+};
 export default MainNavigator;
