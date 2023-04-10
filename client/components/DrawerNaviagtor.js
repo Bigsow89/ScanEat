@@ -1,36 +1,40 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import React, { useState, useEffect } from "react";
+import { View, Text, TouchableOpacity, Image } from "react-native";
+
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
   DrawerItemList,
-} from '@react-navigation/drawer';
-import AppNav from '../screens/AppNav';
-import axios from 'axios';
-import { useLogin } from '../Context/LoginProvider';
-import UserAvatar from 'react-native-user-avatar';
+} from "@react-navigation/drawer";
+import AppNav from "../screens/AppNav";
+import axios from "axios";
+import { useLogin } from "../Context/LoginProvider";
+import UserAvatar from "react-native-user-avatar";
+import Scanner from "../screens/Scanner";
+import Search from "../screens/Search";
+import Profile from "../screens/Profile";
+
 
 const Drawer = createDrawerNavigator();
 
 const CustomDrawer = (props) => {
   const { setIsLoggedIn, user } = useLogin();
-  /*  useEffect(() => {
+  useEffect(() => {
     axios
-      .get('http://192.168.191.159:8000/auth/loggedin-user')
-      .then(res => {
+      .get("http://192.168.189.2:8000/auth/loggedin-user")
+      .then((res) => {
         console.log(res.data);
         setIsLoggedin(true);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
-  }, []); */
+  }, []);
 
   const handleLogout = () => {
     try {
       axios
-        .post('http://192.168.78.125:8000/auth/logout', {})
-
+        .post("http://192.168.189.2:8000/auth/logout", {})
         .then((res) => {
           setIsLoggedIn(false);
         });
@@ -46,15 +50,15 @@ const CustomDrawer = (props) => {
       <DrawerContentScrollView {...props}>
         <View
           style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
             padding: 20,
-            backgroundColor: '#f6f6f6',
+            backgroundColor: "#f6f6f6",
             marginBottom: 20,
           }}>
           <View>
-            <Text style={{ fontSize: 16, fontWeight: 'bold' }}>
+            <Text style={{ fontSize: 16, fontWeight: "bold" }}>
               {user.name}
             </Text>
           </View>
@@ -65,8 +69,7 @@ const CustomDrawer = (props) => {
               width: 70,
               height: 70,
               borderRadius: 100,
-
-              backgroundColor: '#A4BE7B',
+              backgroundColor: "#A4BE7B",
             }}
           />
         </View>
@@ -74,16 +77,17 @@ const CustomDrawer = (props) => {
       </DrawerContentScrollView>
       <TouchableOpacity
         style={{
-          position: 'absolute',
+          position: "absolute",
           right: 0,
           left: 0,
           bottom: 50,
-          backgroundColor: '#f6f6f6',
+          backgroundColor: "#f6f6f6",
           padding: 20,
         }}
         onPress={handleLogout}>
         <Text>Log Out</Text>
       </TouchableOpacity>
+  
     </View>
   );
 };
@@ -99,7 +103,7 @@ const DrawerNavigator = () => {
           elevation: 0,
           shadowOpacity: 0,
         },
-        headerTitle: '',
+        headerTitle: "",
       }}
       drawerContent={(props) => <CustomDrawer {...props} />}>
       <Drawer.Screen name='Home'>

@@ -12,8 +12,10 @@ import {
   KeyboardAvoidingView,
   Dimensions,
   TouchableOpacity,
-} from 'react-native';
-import axios from 'axios';
+} from "react-native";
+import axios from "axios";
+import { useNavigation } from "@react-navigation/native";
+
 
 const ProductDetail = ({ route }) => {
   const { productData } = route.params;
@@ -21,12 +23,17 @@ const ProductDetail = ({ route }) => {
   const [altProducts, setAltProducts] = useState([]);
   const screenHeight = Dimensions.get('window').height;
   const dynamicKeyboardOffset = screenHeight * 0.25;
+  const navigation = useNavigation();
 
   useEffect(() => {
-    axios
-      .get('http://192.168.189.2:8000/api/products')
-      .then((response) => setAltProducts(response.data));
-  }, []);
+    axios.get("http://192.168.189.2:8000/api/products").then((response) => {
+      const filteredProducts = response.data.filter(
+        (product) => product._id !== productData._id
+      );
+      setAltProducts(filteredProducts);
+    });
+  }, [altProducts]);
+
 
   const handleCommentSubmit = async () => {
     try {
@@ -74,7 +81,7 @@ const ProductDetail = ({ route }) => {
                 </View>
               </View>
               <Text style={styles.description}>{productData.description}</Text>
-              {/* Render ingredients and minerals if available */}
+
               {productData.ingredients && (
                 <>
                   <Text style={styles.sectionTitle}>Ingredients</Text>
@@ -101,7 +108,7 @@ const ProductDetail = ({ route }) => {
               )}
             </View>
           </View>
-          {/* Render alternative products if available */}
+
           {altProducts && (
             <View style={[styles.alt, styles.commsec]}>
               <Text style={styles.sectionTitle}>Alternative Products</Text>
@@ -109,10 +116,18 @@ const ProductDetail = ({ route }) => {
                 horizontal
                 data={altProducts}
                 renderItem={({ item }) => (
-                  <Image
-                    source={{ uri: item.photos }}
-                    style={styles.altProductImage}
-                  />
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate("ProductDetail", {
+                        productData: item,
+                      })
+                    }
+                  >
+                    <Image
+                      source={{ uri: item.photos }}
+                      style={styles.altProductImage}
+                    />
+                  </TouchableOpacity>
                 )}
                 keyExtractor={(item) => item._id.toString()}
               />

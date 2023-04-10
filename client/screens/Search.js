@@ -21,18 +21,21 @@ import {
   SafeAreaView,
   StatusBar,
   TouchableOpacity,
-} from 'react-native';
-import axios from 'axios';
-import { useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
+} from "react-native";
+import axios from "axios";
+import { useState, useRef } from "react";
+import { useNavigation } from "@react-navigation/native";
+
+
 const Search = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [matchingProduct, setMatchingProduct] = useState([]);
   const navigation = useNavigation();
+  const InputRef = useRef(null);
 
   const handleSearch = () => {
     axios
-      .get(`http://192.168.78.125:8000/api/products/search/${searchQuery}`)
+      .get(`http://192.168.189.2:8000/api/products/search/${searchQuery}`)
       .then((response) => {
         const filteredProducts = response.data.filter(
           (product) =>
@@ -45,7 +48,9 @@ const Search = () => {
               .includes(searchQuery.toLowerCase())
         );
         setMatchingProduct(filteredProducts);
-        //console.warn(matchingProduct);
+        setSearchQuery("");
+        InputRef.current.clear();
+        console.warn(matchingProduct);
       })
       .catch((error) => console.log(error));
   };
@@ -68,12 +73,13 @@ const Search = () => {
           space={5}>
           <Center />
           <Input
-            placeholder='Search'
-            variant='rounded'
-            width='100%'
-            borderRadius='20'
-            py='2'
-            px='2'
+            placeholder="Search"
+            ref={InputRef}
+            variant="rounded"
+            width="100%"
+            borderRadius="20"
+            py="2"
+            px="2"
             InputLeftElement={
               <Icon
                 ml='2'
@@ -163,6 +169,7 @@ export default () => {
     <NativeBaseProvider>
       <SafeAreaView style={[styles.container, styles.AndroidSafeArea]}>
         <Search />
+        
       </SafeAreaView>
     </NativeBaseProvider>
   );
