@@ -80,7 +80,7 @@ const Scanner = () => {
       setText(data);
 
       const response = await axios.get(
-        `http://192.168.189.2:8000/api/products/scan/${data}`
+        `http://192.168.191.159:8000/api/products/scan/${data}`
       );
       setProductData(response.data);
       refreshHistory();

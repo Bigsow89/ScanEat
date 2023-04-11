@@ -1,17 +1,19 @@
 import React, {useState, useEffect }from 'react';
 import { StyleSheet, StatusBar, Text,  ScrollView, TouchableOpacity, View, Platform } from 'react-native';
+import { Button, Modal, FormControl, Input, Center, NativeBaseProvider } from "native-base";
 import IconSimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons' 
 import AntDesign from 'react-native-vector-icons/AntDesign'; 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'; 
 import UserAvatar from 'react-native-user-avatar';
-import { useLogin } from '../Context/LoginProvider';
+//import { useLogin } from '../Context/LoginProvider';
 import axios from 'axios';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Settings() {
-  const [users, setUsers] = useState({
-    username: "",
-  })
-  const { setIsLoggedIn,  user } = useLogin();
+  const navigation = useNavigation();
+  const [users, setUsers] = useState({name: ''})
+  const [showModal, setShowModal] = useState(false);
+ // const { setIsLoggedIn,  user } = useLogin();
  
   useEffect(() => {
   
@@ -20,6 +22,7 @@ export default function Settings() {
       
         .then(res => {
           setUsers(res.data);
+          console.log(res.data.name)
          //setIsLoggedin(true);
         })
         .catch(err => {
@@ -28,24 +31,28 @@ export default function Settings() {
       }, []);  
 
 
-      const handleChange = (e) => {
-        const { name, value } = e.target;
+      const handleChange = (name, value) => {
+   
+    
     
         setUsers({ ...users, [name]: value });
       };
     
       const handleSubmit = (e) => {
-        e.preventDefault();
+      
         axios
           .put(
-            `http://192.168.191.159:8000/api/users/${_id}`,
-            pokemon
+            `http://192.168.191.159:8000/api/users/${users._id}`,{ name:users.name}
+            
           )
-          .then((res) => navigate(`/users/${id}`))
+          .then((res) => console.log('Success'))
           .catch((e) => console.log(e));
       };
 
+
+
   return (
+    <NativeBaseProvider>
     <View style={styles.AndroidSafeArea}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{padding:10, width:"100%", backgroundColor: '#0c8079', height: 150 }}>
@@ -60,12 +67,45 @@ export default function Settings() {
         <Text style={{fontSize:15, fontWeight: 'bold', color: 'grey', marginBottom: 15}}>{users.email}</Text>
         </View>
 
-      <TouchableOpacity style={styles.buttonIcons} >
+        <TouchableOpacity style={styles.buttonIcons} onPress={() => setShowModal(true)}>
+           
+            <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+              <Modal.Content maxWidth="400px">
+                <Modal.CloseButton />
+                <Modal.Header>Edit Username</Modal.Header>
+                <Modal.Body>
+                  <FormControl>
+                    <FormControl.Label>New Username</FormControl.Label>
+                    <Input name="name" value={users.name} onChangeText={(text) => handleChange('name', text)}  />
+                  </FormControl>
+                 
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button.Group space={2}>
+                    <Button variant="ghost" colorScheme="blueGray" onPress={() => {
+                    setShowModal(false);
+                  }}>
+                      Cancel
+                    </Button>
+                    <Button onPress={() => {
+                    handleSubmit()
+                    setShowModal(false);
+                    
+                  }}>
+                      Save
+                    </Button>
+                  </Button.Group>
+                </Modal.Footer>
+              </Modal.Content>
+            </Modal>
+            <Text style={{padding: 5}}>Change username</Text>
+            </TouchableOpacity>
+     {/*  <TouchableOpacity style={styles.buttonIcons} onPress={() => alert( <Input size="sm" placeholder="sm Input" />)}>
       <AntDesign name="profile" size={25} color="#0c8079" paddingTop={3}/>
     <Text style={{padding: 5}}>Change username</Text>
-    </TouchableOpacity>
+    </TouchableOpacity> */}
     
-    <TouchableOpacity style={styles.buttonIcons} onPress={this.onShare}>
+    <TouchableOpacity style={styles.buttonIcons} >
       <MaterialIcons name="alternate-email" size={25} color="#0c8079" />
     <Text style={{padding: 5}}>Change email</Text>
     </TouchableOpacity>
@@ -77,6 +117,7 @@ export default function Settings() {
    
       </ScrollView>
       </View>
+      </NativeBaseProvider>
   );
 }
 

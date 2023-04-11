@@ -171,8 +171,10 @@ export default function Profile() {
         title="Settings"
         
       /> */}
-        <Text style={{ padding: 5 }}>Settings</Text>
+        <Text style={{ padding: 5 }}>Settings</Text>   
         </TouchableOpacity>
+
+
         <TouchableOpacity
           style={styles.buttonIcons}
           onPress={handleLogout}>
