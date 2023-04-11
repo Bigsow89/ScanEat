@@ -124,7 +124,7 @@ const Home = () => {
                 alt={item.productName}
               />
               <VStack>
-                <Text
+                <Text style={styles.productName}
                   _dark={{
                     color: "warmGray.50",
                   }}
@@ -137,6 +137,7 @@ const Home = () => {
                   color="coolGray.600"
                   _dark={{
                     color: "warmGray.200",
+                   
                   }}
                 >
                   {item.categoryName}
@@ -230,6 +231,10 @@ const styles = StyleSheet.create({
   },
   deleteConfirmationText: {
     color: "#fcfcfc",
+    fontWeight: "bold",
+  },
+  productName: {
+    fontSize: 18,
     fontWeight: "bold",
   },
   deleteButton: {

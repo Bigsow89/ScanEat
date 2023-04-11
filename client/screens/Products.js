@@ -58,7 +58,7 @@ const Products = () => {
                 alt={item.productName}
               />
               <VStack>
-                <Text
+                <Text style={styles.productName}
                   _dark={{
                     color: "warmGray.50",
                   }}
@@ -105,5 +105,9 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     flex: 1,
     justifyContent: "flex-end",
+  },
+  productName: {
+    fontSize: 18,
+    fontWeight: "bold",
   },
 });
