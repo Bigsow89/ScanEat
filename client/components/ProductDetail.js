@@ -20,17 +20,28 @@ const ProductDetail = ({ route }) => {
   const { productData } = route.params;
   const [newComment, setNewComment] = useState("");
   const [altProducts, setAltProducts] = useState([]);
+  const [user, setUser] = useState(null);
+
   const screenHeight = Dimensions.get("window").height;
   const dynamicKeyboardOffset = screenHeight * 0.25;
   const navigation = useNavigation();
 
   useEffect(() => {
-    axios.get("http://192.168.189.2:8000/api/products").then((response) => {
-      const filteredProducts = response.data.filter(
-        (product) => product._id !== productData._id
-      );
-      setAltProducts(filteredProducts);
-    });
+    const loggedInUserUrl = "http://192.168.189.2:8000/auth/loggedin-user";
+    const productsUrl = "http://192.168.189.2:8000/api/products";
+
+    Promise.all([axios.get(loggedInUserUrl), axios.get(productsUrl)])
+      .then(([loggedInUserRes, productsRes]) => {
+        setUser(loggedInUserRes.data.name);
+
+        const filteredProducts = productsRes.data.filter(
+          (product) => product._id !== productData._id
+        );
+        setAltProducts(filteredProducts);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
   }, [altProducts]);
 
   const handleCommentSubmit = async () => {
@@ -79,33 +90,35 @@ const ProductDetail = ({ route }) => {
                   </Text>
                 </View>
               </View>
+              <Text style={styles.sectionTitle}>Description</Text>
               <Text style={styles.description}>{productData.description}</Text>
-
-              {productData.ingredients && (
-                <>
-                  <Text style={styles.sectionTitle}>Ingredients</Text>
-                  {productData.ingredients.map((ingredient, index) => (
-                    <Text key={index} style={styles.listItem}>
-                      {ingredient}
-                    </Text>
-                  ))}
-                </>
-              )}
-              {productData.minerals && (
-                <>
-                  <Text style={styles.sectionTitle}>Minerals</Text>
-                  {productData.minerals.map((mineral, index) => (
-                    <Text key={index} style={styles.listItem}>
-                      {mineral}
-                    </Text>
-                  ))}
-                </>
-              )}
+              <View style={styles.table}>
+                {productData.ingredients && (
+                  <View style={styles.ingre}>
+                    <Text style={styles.sectionTitle}>Ingredients</Text>
+                    {productData.ingredients.map((ingredient, index) => (
+                      <Text key={index} style={styles.listItem}>
+                        {ingredient}
+                      </Text>
+                    ))}
+                  </View>
+                )}
+                {productData.minerals && (
+                  <View style={styles.ingre}>
+                    <Text style={styles.sectionTitle}>Minerals</Text>
+                    {productData.minerals.map((mineral, index) => (
+                      <Text key={index} style={styles.listItem}>
+                        {mineral}
+                      </Text>
+                    ))}
+                  </View>
+                )}
+              </View>
             </View>
           </View>
 
           {altProducts && (
-            <View style={styles.alt}>
+            <View style={[styles.alt, styles.commsec]}>
               <Text style={styles.sectionTitle}>Alternative Products</Text>
               <FlatList
                 horizontal
@@ -130,11 +143,25 @@ const ProductDetail = ({ route }) => {
           )}
           {productData.comment && (
             <>
-              <Text style={styles.sectionTitle}>Comments</Text>
+              <Text style={[styles.sectionTitle, styles.commsec]}>
+                Comments
+              </Text>
               {productData.comment.map((comments, index) => (
-                <Text key={index} style={styles.listItem}>
-                  {comments}
-                </Text>
+                <View
+                  key={index}
+                  style={{
+                    flex: 1,
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Text style={[styles.listItem, styles.commsec]}>
+                    {comments}
+                  </Text>
+                  <Text style={{ fontSize: 12, fontStyle: "italic" }}>
+                    {user}
+                  </Text>
+                </View>
               ))}
             </>
           )}
@@ -168,6 +195,7 @@ const styles = StyleSheet.create({
   },
   alt: {
     marginVertical: 50,
+    paddingHorizontal: 5,
   },
   safeArea: {
     flex: 1,
@@ -180,6 +208,17 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     alignItems: "center",
+    borderColor: "black",
+    borderWidth: 1,
+    borderRadius: 15,
+    paddingVertical: 10,
+    marginTop: 30,
+    backgroundColor: "#f0f2ec",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 25,
   },
   productImage: {
     width: 100,
@@ -197,9 +236,19 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontStyle: "italic",
   },
+  ingre: {
+    alignItems: "left",
+    width: "50%",
+  },
+  table: {
+    display: "flex",
+    flexDirection: "row",
+    gap: 10,
+  },
   description: {
     fontSize: 16,
-    marginVertical: 10,
+    marginBottom: 30,
+    fontWeight: 400,
   },
   sectionTitle: {
     fontSize: 18,
@@ -221,6 +270,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     padding: 10,
+  },
+  commsec: {
+    paddingHorizontal: 10,
   },
   commentInput: {
     flex: 1,
