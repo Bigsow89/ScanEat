@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import {
   StyleSheet,
   StatusBar,
@@ -17,28 +17,32 @@ import { Swipeable } from "react-native-gesture-handler";
 import axios from "axios";
 import { VStack, HStack, Spacer, NativeBaseProvider, Box } from "native-base";
 import { useNavigation } from "@react-navigation/native";
-
+import HistoryContext from "../../Context/HistoryContext";
 const Home = () => {
   const openItemRef = useRef(null);
   const navigation = useNavigation();
   //const { setIsLoggedIn, setProfile } = useLogin();
-  const [history, setHistory] = useState([]);
- 
+
+  const { history, setHistory, refreshFlag } = useContext(HistoryContext);
   const [user, setUser] = useState("");
   useEffect(() => {
     axios
       .get("http://192.168.191.159:8000/auth/loggedin-user")
       .then((res) => {
         setHistory(res.data.history);
+
+
+
         setUser(res.data);
       
         //setHistoryUpdated(false)
+
         //setIsLoggedin(true);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [refreshFlag]);
 
 /*   const handleDelete = async (productId) => {
     try {
@@ -196,9 +200,8 @@ export default () => {
         <Home />
       </SafeAreaView>
     </NativeBaseProvider>
-  ); 
-
-  }
+  );
+};
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -206,7 +209,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#eef2e6",
   },
-  
+
   image: {
     width: 240,
     height: 240,
@@ -252,6 +255,4 @@ const styles = StyleSheet.create({
   AndroidSafeArea: {
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
-  
-  
 });

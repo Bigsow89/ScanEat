@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState, useEffect } from "react";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { Svg, Path } from "react-native-svg";
 import * as Animatable from "react-native-animatable";
 import { Audio } from "expo-av";
+import HistoryContext from "../Context/HistoryContext";
+import { useNavigation } from "@react-navigation/native";
 
 import {
   VStack,
@@ -35,7 +37,8 @@ const Scanner = () => {
   const [text, setText] = useState();
   const [isOpen, setIsOpen] = useState(false);
   const [sound, setSound] = React.useState();
-
+  const { refreshHistory } = useContext(HistoryContext);
+  const navigation = useNavigation();
   async function playSound() {
     console.log("Loading Sound");
     const { sound } = await Audio.Sound.createAsync(
@@ -66,7 +69,7 @@ const Scanner = () => {
   useEffect(() => {
     setTimeout(() => {
       setShowCheck(false);
-    }, 3000);
+    }, 2000);
   }, [showCheck]);
   // What happens when we scan the bar code
   const handleBarCodeScanned = async ({ type, data }) => {
@@ -75,11 +78,12 @@ const Scanner = () => {
       setScanned(true);
       setShowCheck(true);
       setText(data);
-      console.log(process.env.REACT_APP_SERVER_BASE_URL);
+
       const response = await axios.get(
         `http://192.168.191.159:8000/api/products/scan/${data}`
       );
       setProductData(response.data);
+      refreshHistory();
       setTimeout(() => {
         setIsOpen(true);
       }, 1000); // Show modal after 1 second
@@ -137,7 +141,7 @@ const Scanner = () => {
                 fadeOutDelay={2000}
                 style={styles.checkBubble}
               >
-                <Svg width={30} height={30} viewBox="0 0 24 24">
+                <Svg width={36} height={36} viewBox="0 0 24 24">
                   <Path
                     d="M9 16.17l-3.59-3.58L4 14l5 5 10-10-1.41-1.42L9 16.17z"
                     fill="#fff"
@@ -176,56 +180,63 @@ const Scanner = () => {
               justifyContent: "center",
             }}
           >
-            <Box style={{ width: 420 }}>
-              <HStack
-                borderBottomWidth="1"
-                _dark={{
-                  borderColor: "muted.50",
-                }}
-                borderColor="muted.800"
-                pl={["0", "4"]}
-                pr={["0", "5"]}
-                py="2"
-                space={[2, 3]}
-                justifyContent="space-between"
-              >
-                <Image
-                  source={{ uri: productData.photos }}
-                  style={{ width: 80, height: 80 }}
-                  alt={productData.productName}
-                />
-                <VStack>
-                  <Text
-                    _dark={{
-                      color: "warmGray.50",
-                    }}
-                    color="coolGray.800"
-                    bold
-                  >
-                    {productData.productName}
-                  </Text>
-                  <Text
-                    color="coolGray.600"
-                    _dark={{
-                      color: "warmGray.200",
-                    }}
-                  >
-                    {productData.categoryName}
-                  </Text>
-                </VStack>
-                <Spacer />
-                <Image
-                  source={{ uri: productData?.classificationPhoto[0] }}
-                  style={{
-                    width: 40,
-                    height: 40,
-                    alignSelf: "center",
-                    marginRight: 22,
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("ProductDetail", { productData });
+                setIsOpen(false);
+              }}
+            >
+              <Box style={{ width: 420 }}>
+                <HStack
+                  borderBottomWidth="1"
+                  _dark={{
+                    borderColor: "muted.50",
                   }}
-                  alt={productData.productName}
-                />
-              </HStack>
-            </Box>
+                  borderColor="muted.800"
+                  pl={["0", "4"]}
+                  pr={["0", "5"]}
+                  py="2"
+                  space={[2, 3]}
+                  justifyContent="space-between"
+                >
+                  <Image
+                    source={{ uri: productData.photos }}
+                    style={{ width: 80, height: 80 }}
+                    alt={productData.productName}
+                  />
+                  <VStack>
+                    <Text
+                      _dark={{
+                        color: "warmGray.50",
+                      }}
+                      color="coolGray.800"
+                      bold
+                    >
+                      {productData.productName}
+                    </Text>
+                    <Text
+                      color="coolGray.600"
+                      _dark={{
+                        color: "warmGray.200",
+                      }}
+                    >
+                      {productData.categoryName}
+                    </Text>
+                  </VStack>
+                  <Spacer />
+                  <Image
+                    source={{ uri: productData?.classificationPhoto[0] }}
+                    style={{
+                      width: 40,
+                      height: 40,
+                      alignSelf: "center",
+                      marginRight: 22,
+                    }}
+                    alt={productData.productName}
+                  />
+                </HStack>
+              </Box>
+            </TouchableOpacity>
           </SafeAreaView>
           <TouchableOpacity
             onPress={() => setIsOpen(false)}
@@ -291,6 +302,6 @@ const styles = StyleSheet.create({
   },
   checkBubble: {
     backgroundColor: "#0c8079",
-    color: "black",
+    borderRadius: "50%",
   },
 });
