@@ -9,7 +9,7 @@ const LoginProvider = ({ children }) => {
 
   useEffect(() => {
     axios
-      .get("http://192.168.189.2:8000/auth/loggedin-user")
+      .get("http://192.168.191.159:8000/auth/loggedin-user")
 
       .then((res) => setIsLoggedIn(res.data.name ? true : false))
       .catch((error) => console.error(error));
@@ -18,7 +18,7 @@ const LoginProvider = ({ children }) => {
 
   useEffect(() => {
     axios
-      .get("http://192.168.189.2:8000/auth/loggedin-user")
+      .get("http://192.168.191.159:8000/auth/loggedin-user")
       .then((res) => {
         setUser(res.data);
       })

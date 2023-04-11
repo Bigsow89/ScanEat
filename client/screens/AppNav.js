@@ -74,7 +74,7 @@ function HistoryStackNavigator() {
       }}
     >
       <HistoryStack.Screen name="History" component={HomeScreen} />
-      <HistoryStack.Screen name="ProductDetail" component={ProductDetail} />
+      <HistoryStack.Screen name="Product detail" component={ProductDetail} />
     </HistoryStack.Navigator>
   );
 }
