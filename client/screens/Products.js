@@ -23,7 +23,7 @@ const Products = () => {
   const handleBarSearch = async () => {
     try {
       const response = await axios.get(
-        `http://192.168.189.2:8000/api/products`
+        `http://192.168.191.159:8000/api/products`
       );
       setProduct(response.data);
     } catch (error) {
@@ -58,7 +58,7 @@ const Products = () => {
                 alt={item.productName}
               />
               <VStack>
-                <Text
+                <Text style={styles.productName}
                   _dark={{
                     color: "warmGray.50",
                   }}
@@ -105,5 +105,9 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     flex: 1,
     justifyContent: "flex-end",
+  },
+  productName: {
+    fontSize: 18,
+    fontWeight: "bold",
   },
 });

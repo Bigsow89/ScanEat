@@ -23,14 +23,16 @@ const Home = () => {
   const navigation = useNavigation();
   //const { setIsLoggedIn, setProfile } = useLogin();
   const [history, setHistory] = useState([]);
+ 
   const [user, setUser] = useState("");
   useEffect(() => {
     axios
-      .get("http://192.168.189.2:8000/auth/loggedin-user")
+      .get("http://192.168.191.159:8000/auth/loggedin-user")
       .then((res) => {
         setHistory(res.data.history);
-        setUser(res.data._id);
-        console.warn(user);
+        setUser(res.data);
+      
+        //setHistoryUpdated(false)
         //setIsLoggedin(true);
       })
       .catch((err) => {
@@ -38,17 +40,31 @@ const Home = () => {
       });
   }, []);
 
-  const handleDelete = async (productId) => {
+/*   const handleDelete = async (productId) => {
     try {
       const response = await axios.delete(
-        `http://192.168.189.2:8000/${user}/history/${productId}`
+        `http://192.168.191.159:8000/${user}/history/${productId}`
       );
 
       console.log("Item deleted:", response.data);
     } catch (error) {
       console.error("Error deleting item:", error);
     }
+  }; */
+
+  const handleDelete = (id) => {
+   console.log('what what', user._id, id)
+    axios
+      .delete(
+        `http://192.168.191.159:8000/api/users/${user._id}/history/${id}`
+      ).then(res => {
+        setHistory(res.data.history);
+      })
+
+      .catch((e) => console.log(e)); 
   };
+
+
 
   const renderRightActions = (progress, dragX, item) => {
     const opacity = dragX.interpolate({
@@ -63,7 +79,7 @@ const Home = () => {
           <Text style={styles.deleteConfirmationText}>Are you sure?</Text>
         </View>
         <Animated.View style={[styles.deleteButton, { opacity }]}>
-          <TouchableOpacity onPress={() => handleDelete(item.id)}>
+          <TouchableOpacity onPress={() => handleDelete(item._id)}>
             <Text style={styles.deleteButtonText}>Delete</Text>
           </TouchableOpacity>
         </Animated.View>
@@ -108,7 +124,7 @@ const Home = () => {
                 alt={item.productName}
               />
               <VStack>
-                <Text
+                <Text style={styles.productName}
                   _dark={{
                     color: "warmGray.50",
                   }}
@@ -121,6 +137,7 @@ const Home = () => {
                   color="coolGray.600"
                   _dark={{
                     color: "warmGray.200",
+                   
                   }}
                 >
                   {item.categoryName}
@@ -143,6 +160,18 @@ const Home = () => {
       </Swipeable>
     );
   };
+const showList = ( {item} ) => {
+  console.log('asdasdasd',item._id)
+return (  <SwipeableItem
+  item= {item}
+  onPress={() =>
+    navigation.navigate("Product detail", { productData: item })
+  }
+  openItemRef={openItemRef}
+/>
+)
+}
+
 
   return (
     <SafeAreaView style={[styles.container, styles.AndroidSafeArea]}>
@@ -153,17 +182,8 @@ const Home = () => {
       <Text style={styles.text}>Hey, wanna scan some items?</Text> */}
       <FlatList
         data={history}
-        renderItem={({ item }) => (
-          <SwipeableItem
-            item={item}
-            onPress={() =>
-              navigation.navigate("ProductDetail", { productData: item })
-            }
-            onDelete={() => handleDelete(item.id)}
-            openItemRef={openItemRef}
-          />
-        )}
-        keyExtractor={(item) => item.id}
+        renderItem={showList}
+        keyExtractor={(item) => item._id}
       />
     </SafeAreaView>
   );
@@ -211,6 +231,10 @@ const styles = StyleSheet.create({
   },
   deleteConfirmationText: {
     color: "#fcfcfc",
+    fontWeight: "bold",
+  },
+  productName: {
+    fontSize: 18,
     fontWeight: "bold",
   },
   deleteButton: {

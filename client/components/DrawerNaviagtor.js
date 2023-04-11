@@ -13,6 +13,8 @@ import UserAvatar from "react-native-user-avatar";
 import Scanner from "../screens/Scanner";
 import Search from "../screens/Search";
 import Profile from "../screens/Profile";
+import HomeScreen from "../screens/HomeScreen/HomeScreen";
+import { NavigationContainer } from '@react-navigation/native';
 
 
 const Drawer = createDrawerNavigator();
@@ -23,7 +25,7 @@ const CustomDrawer = (props) => {
     axios
       .get("http://192.168.189.2:8000/auth/loggedin-user")
       .then((res) => {
-        console.log(res.data);
+       // console.log(res.data);
         setIsLoggedin(true);
       })
       .catch((err) => {
@@ -94,6 +96,7 @@ const CustomDrawer = (props) => {
 
 const DrawerNavigator = () => {
   return (
+    
     <Drawer.Navigator
       initialRouteName='Home'
       screenOptions={{
@@ -119,6 +122,7 @@ const DrawerNavigator = () => {
         {() => <AppNav initialRouteName='ProfileToSettingsStackNavigator' />}
       </Drawer.Screen>
     </Drawer.Navigator>
+    
   );
 };
 

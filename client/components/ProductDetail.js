@@ -26,7 +26,7 @@ const ProductDetail = ({ route }) => {
   const navigation = useNavigation();
 
   useEffect(() => {
-    axios.get("http://192.168.189.2:8000/api/products").then((response) => {
+    axios.get("http://192.168.191.159:8000/api/products").then((response) => {
       const filteredProducts = response.data.filter(
         (product) => product._id !== productData._id
       );
@@ -43,7 +43,7 @@ const ProductDetail = ({ route }) => {
       }
 
       const response = await axios.post(
-        `http://192.168.78.125:8000/api/products/${productData._id}/comment`,
+        `http://192.168.191.159:8000/api/products/${productData._id}/comment`,
         { comment: newComment }
       );
 
