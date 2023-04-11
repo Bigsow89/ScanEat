@@ -1,7 +1,5 @@
-
 import { StyleSheet, Text, View, SafeAreaView } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-
 import { StatusBar } from "expo-status-bar";
 import ProductDetail from "../components/ProductDetail";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -19,7 +17,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const SearchStack = createStackNavigator();
 const HistoryStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
-
 const SettingsStack = createNativeStackNavigator();
 const HomeStack = createNativeStackNavigator();
 function SearchStackNavigator() {
@@ -27,14 +24,42 @@ function SearchStackNavigator() {
     <SearchStack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: "#eef2e6",
+          backgroundColor: '#eef2e6',
           elevation: 0, // remove shadow on Android
           shadowOpacity: 0, // remove shadow on iOS
         },
-      }}
-    >
-      <SearchStack.Screen name="Search" component={Search} />
-      <SearchStack.Screen name="ProductDetail" component={ProductDetail} />
+        headerLeft: null,
+      }}>
+      <SearchStack.Screen
+        name='Search'
+        component={Search}
+        options={{
+          headerLeft: null,
+          headerShown: false,
+        }}
+      />
+      <SearchStack.Screen
+        name='ProductDetail'
+        component={ProductDetail}
+        options={({ navigation }) => ({
+          headerTitle: 'Product Details',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 24,
+            color: 'black',
+          },
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Ionicons
+                name='arrow-undo-outline'
+                size={24}
+                color='#333'
+                style={{ paddingLeft: 10 }}
+              />
+            </TouchableOpacity>
+          ),
+        })}
+      />
     </SearchStack.Navigator>
   );
 }
@@ -83,7 +108,7 @@ function HistoryStackNavigator() {
 
 
 
-export default function AppNav() {
+export default function AppNav({ initialRouteName }) {
   return (
     <>
       <NavigationContainer independent={true}>
@@ -93,6 +118,7 @@ export default function AppNav() {
               tabBarShowLabel: false,
               tabBarActiveTintColor: "#c9d7ae",
               tabBarInactiveTintColor: "#ffffff",
+              tabBarHideOnKeyboard: true,
               tabBarStyle: {
                 backgroundColor: "#0c8079",
                 height: Platform.OS === "ios" ? 80 : 60,
@@ -128,36 +154,19 @@ export default function AppNav() {
               }}
             />
             <Tab.Screen
-              name="Search"
+              name='SearchStackNavigator'
               component={SearchStackNavigator}
               options={{
                 headerShown: false,
                 tabBarIcon: (props) => (
-                  <Icon name="search" type="feather" color={props.color} />
+                  <Icon
+                    name='search'
+                    type='feather'
+                    color={props.color}
+                  />
                 ),
               }}
             />
-
-          {/*  <Tab.Screen
-            name="profile"
-            component={Profile}
-            options={{
-              headerShown: false,
-              tabBarIcon: (props) => (
-                <Icon name="user" type="feather" color={props.color} />
-              ),
-            }}
-            />
-            {() => (
-              <SettingsStack.Navigator>
-                <SettingsStack.Screen
-                  name="Settings"
-                  component={Settings}
-                />
-                <SettingsStack.Screen name="Profile" component={Profile} />
-              </SettingsStack.Navigator>
-            )}  */}
-
           <Tab.Screen name="Profil"  options={{
               headerShown: false,
               tabBarIcon: (props) => (
@@ -175,14 +184,8 @@ export default function AppNav() {
             </SettingsStack.Navigator>
           )}
         </Tab.Screen>
-     
-     
-          
-          
-        </Tab.Navigator>
-        
+        </Tab.Navigator>        
       </SafeAreaView>
-
         <StatusBar style="auto" />
       </NavigationContainer>
     </>
@@ -191,11 +194,11 @@ export default function AppNav() {
 
 const styles = StyleSheet.create({
   AndroidSafeArea: {
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
     flex: 1,
-    justifyContent: "flex-end",
+    justifyContent: 'flex-end',
   },
   bg: {
-    backgroundColor: "#eef2e6",
+    backgroundColor: '#eef2e6',
   },
 });

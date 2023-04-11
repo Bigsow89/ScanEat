@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -16,11 +16,12 @@ import {
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 
+
 const ProductDetail = ({ route }) => {
   const { productData } = route.params;
-  const [newComment, setNewComment] = useState("");
+  const [newComment, setNewComment] = useState('');
   const [altProducts, setAltProducts] = useState([]);
-  const screenHeight = Dimensions.get("window").height;
+  const screenHeight = Dimensions.get('window').height;
   const dynamicKeyboardOffset = screenHeight * 0.25;
   const navigation = useNavigation();
 
@@ -33,10 +34,11 @@ const ProductDetail = ({ route }) => {
     });
   }, [altProducts]);
 
+
   const handleCommentSubmit = async () => {
     try {
-      if (newComment.trim() === "") {
-        alert("Please enter a comment");
+      if (newComment.trim() === '') {
+        alert('Please enter a comment');
         return;
       }
 
@@ -47,10 +49,10 @@ const ProductDetail = ({ route }) => {
 
       // Update the state with the updated comment list
       productData.comment = response.data.comment;
-      setNewComment("");
+      setNewComment('');
     } catch (error) {
-      console.error("Error submitting the comment:", error);
-      alert("There was an error submitting your comment. Please try again.");
+      console.error('Error submitting the comment:', error);
+      alert('There was an error submitting your comment. Please try again.');
     }
   };
 
@@ -58,9 +60,8 @@ const ProductDetail = ({ route }) => {
     <KeyboardAvoidingView
       style={styles.safeArea}
       enabled={true}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={dynamicKeyboardOffset}
-    >
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={dynamicKeyboardOffset}>
       <SafeAreaView>
         <ScrollView>
           <View style={styles.contentContainer}>
@@ -85,7 +86,9 @@ const ProductDetail = ({ route }) => {
                 <>
                   <Text style={styles.sectionTitle}>Ingredients</Text>
                   {productData.ingredients.map((ingredient, index) => (
-                    <Text key={index} style={styles.listItem}>
+                    <Text
+                      key={index}
+                      style={styles.listItem}>
                       {ingredient}
                     </Text>
                   ))}
@@ -95,7 +98,9 @@ const ProductDetail = ({ route }) => {
                 <>
                   <Text style={styles.sectionTitle}>Minerals</Text>
                   {productData.minerals.map((mineral, index) => (
-                    <Text key={index} style={styles.listItem}>
+                    <Text
+                      key={index}
+                      style={styles.listItem}>
                       {mineral}
                     </Text>
                   ))}
@@ -105,7 +110,7 @@ const ProductDetail = ({ route }) => {
           </View>
 
           {altProducts && (
-            <View style={styles.alt}>
+            <View style={[styles.alt, styles.commsec]}>
               <Text style={styles.sectionTitle}>Alternative Products</Text>
               <FlatList
                 horizontal
@@ -130,9 +135,13 @@ const ProductDetail = ({ route }) => {
           )}
           {productData.comment && (
             <>
-              <Text style={styles.sectionTitle}>Comments</Text>
+              <Text style={[styles.sectionTitle, styles.commsec]}>
+                Comments
+              </Text>
               {productData.comment.map((comments, index) => (
-                <Text key={index} style={styles.listItem}>
+                <Text
+                  key={index}
+                  style={[styles.listItem, styles.commsec]}>
                   {comments}
                 </Text>
               ))}
@@ -141,19 +150,18 @@ const ProductDetail = ({ route }) => {
           <View style={styles.addComment}>
             <TextInput
               style={styles.commentInput}
-              placeholder="Add a comment"
+              placeholder='Add a comment'
               onChangeText={(text) => setNewComment(text)}
               value={newComment}
             />
             <TouchableOpacity
               onPress={handleCommentSubmit}
               style={{
-                backgroundColor: "#0c8079",
+                backgroundColor: '#0c8079',
                 padding: 10,
                 borderRadius: 5,
-              }}
-            >
-              <Text style={{ color: "#fff" }}>Submit</Text>
+              }}>
+              <Text style={{ color: '#fff' }}>Submit</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -168,18 +176,19 @@ const styles = StyleSheet.create({
   },
   alt: {
     marginVertical: 50,
+    paddingHorizontal: 5,
   },
   safeArea: {
     flex: 1,
     // justifyContent: "space-between",
-    backgroundColor: "#eef2e6",
+    backgroundColor: '#eef2e6',
   },
   contentContainer: {
     flex: 1,
   },
   header: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   productImage: {
     width: 100,
@@ -187,15 +196,15 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   headerText: {
-    justifyContent: "center",
+    justifyContent: 'center',
   },
   productName: {
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   countryOfOrigin: {
     fontSize: 14,
-    fontStyle: "italic",
+    fontStyle: 'italic',
   },
   description: {
     fontSize: 16,
@@ -203,7 +212,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginTop: 20,
     marginBottom: 10,
   },
@@ -217,23 +226,26 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   addComment: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     padding: 10,
+  },
+  commsec: {
+    paddingHorizontal: 10,
   },
   commentInput: {
     flex: 1,
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: '#ccc',
     borderRadius: 5,
     marginRight: 10,
     paddingLeft: 5,
     paddingVertical: 10,
   },
   submit: {
-    backgroundColor: "#0c8079",
-    color: "red",
+    backgroundColor: '#0c8079',
+    color: 'red',
   },
 });
 

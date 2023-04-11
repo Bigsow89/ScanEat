@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   VStack,
   HStack,
@@ -12,8 +12,8 @@ import {
   Center,
   Box,
   Divider,
-} from "native-base";
-import { Ionicons } from "@expo/vector-icons";
+} from 'native-base';
+import { Ionicons } from '@expo/vector-icons';
 import {
   StyleSheet,
   FlatList,
@@ -25,8 +25,10 @@ import {
 import axios from "axios";
 import { useState, useRef } from "react";
 import { useNavigation } from "@react-navigation/native";
+
+
 const Search = () => {
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
   const [matchingProduct, setMatchingProduct] = useState([]);
   const navigation = useNavigation();
   const InputRef = useRef(null);
@@ -56,18 +58,19 @@ const Search = () => {
   return (
     <>
       <VStack
-        my="4"
+        my='4'
         space={5}
-        w="100%"
-        maxW="300px"
+        w='100%'
+        maxW='300px'
         divider={
-          <Box px="2">
+          <Box px='2'>
             <Divider />
           </Box>
         }
-        alignItems="center"
-      >
-        <VStack w="100%" space={5}>
+        alignItems='center'>
+        <VStack
+          w='100%'
+          space={5}>
           <Center />
           <Input
             placeholder="Search"
@@ -79,10 +82,10 @@ const Search = () => {
             px="2"
             InputLeftElement={
               <Icon
-                ml="2"
-                size="5"
-                color="gray.400"
-                as={<Ionicons name="ios-search" />}
+                ml='2'
+                size='5'
+                color='gray.400'
+                as={<Ionicons name='ios-search' />}
               />
             }
             onChangeText={(text) => setSearchQuery(text)}
@@ -96,21 +99,21 @@ const Search = () => {
           renderItem={({ item }) => (
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate("ProductDetail", { productData: item })
-              }
-            >
+                navigation.navigate('ProductDetail', { productData: item })
+              }>
               <Box
                 style={{ width: 420 }}
-                borderBottomWidth="1"
+                borderBottomWidth='1'
                 _dark={{
-                  borderColor: "muted.50",
+                  borderColor: 'muted.50',
                 }}
-                borderColor="muted.800"
-                pl={["0", "4"]}
-                pr={["0", "5"]}
-                py="2"
-              >
-                <HStack space={[2, 3]} justifyContent="space-between">
+                borderColor='muted.800'
+                pl={['0', '4']}
+                pr={['0', '5']}
+                py='2'>
+                <HStack
+                  space={[2, 3]}
+                  justifyContent='space-between'>
                   <Image
                     source={{ uri: item.photos }}
                     style={{ width: 80, height: 80 }}
@@ -119,19 +122,17 @@ const Search = () => {
                   <VStack>
                     <Text
                       _dark={{
-                        color: "warmGray.50",
+                        color: 'warmGray.50',
                       }}
-                      color="coolGray.800"
-                      bold
-                    >
+                      color='coolGray.800'
+                      bold>
                       {item.productName}
                     </Text>
                     <Text
-                      color="coolGray.600"
+                      color='coolGray.600'
                       _dark={{
-                        color: "warmGray.200",
-                      }}
-                    >
+                        color: 'warmGray.200',
+                      }}>
                       {item.categoryName}
                     </Text>
                   </VStack>
@@ -141,7 +142,7 @@ const Search = () => {
                     style={{
                       width: 40,
                       height: 40,
-                      alignSelf: "center",
+                      alignSelf: 'center',
                       marginRight: 22,
                     }}
                     alt={item.productName}
@@ -154,9 +155,9 @@ const Search = () => {
         />
       ) : (
         <Image
-          source={require("../assets/empty-home-page.png")}
+          source={require('../assets/empty-home-page.png')}
           style={styles.image}
-          alt="Empty Home Page"
+          alt='Empty Home Page'
         />
       )}
     </>
@@ -177,9 +178,9 @@ export default () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#eef2e6",
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#eef2e6',
   },
   image: {
     width: 260,
@@ -187,9 +188,9 @@ const styles = StyleSheet.create({
     opacity: 0.7,
   },
   AndroidSafeArea: {
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   searchBackground: {
-    backgroundColor: "#eef2e6",
+    backgroundColor: '#eef2e6',
   },
 });
