@@ -1,16 +1,17 @@
-import { StyleSheet, Text, View, SafeAreaView } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-import { StatusBar } from "expo-status-bar";
-import ProductDetail from "../components/ProductDetail";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Icon } from "@rneui/themed";
-import HomeScreen from "./HomeScreen";
-import Scanner from "./Scanner";
-import Search from "./Search";
-import Profile from "./Profile";
-import Settings from "./Settings";
+import { StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { StatusBar } from 'expo-status-bar';
+import ProductDetail from '../components/ProductDetail';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Icon } from '@rneui/themed';
+import HomeScreen from './HomeScreen';
+import Scanner from './Scanner';
+import Search from './Search';
+import Profile from './Profile';
+import Settings from './Settings';
 import SupportScreen from './SupportScreen';
-import { createStackNavigator } from "@react-navigation/stack";
+import { createStackNavigator } from '@react-navigation/stack';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 
@@ -96,10 +97,47 @@ function HistoryStackNavigator() {
           elevation: 0, // remove shadow on Android
           shadowOpacity: 0, // remove shadow on iOS
         },
-      }}
-    >
-      <HistoryStack.Screen name="History" component={HomeScreen} />
-      <HistoryStack.Screen name="Product detail" component={ProductDetail} />
+        headerLeft: null,
+      }}>
+      <HistoryStack.Screen
+        name='History'
+        component={HomeScreen}
+        options={{
+          headerTitle: 'My Scan-Eat History',
+          headerLeft: null,
+          headerShown: true,
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 30,
+            color: 'black',
+          },
+        }}
+      />
+      <HistoryStack.Screen
+        name='Product detail'
+        component={ProductDetail}
+        options={({ navigation }) => ({
+          headerTitle: 'Product Details',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 24,
+            color: 'black',
+          },
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Ionicons
+                name='arrow-undo-outline'
+                size={24}
+                color='#333'
+                style={{ paddingLeft: 10 }}
+              />
+            </TouchableOpacity>
+          ),
+        })}
+      />
+      
+    
+      
     </HistoryStack.Navigator>
   );
 }
@@ -114,6 +152,7 @@ export default function AppNav({ initialRouteName }) {
       <NavigationContainer independent={true}>
         <SafeAreaView style={[styles.AndroidSafeArea, styles.bg]}>
           <Tab.Navigator
+          initialRouteName={initialRouteName}
             screenOptions={{
               tabBarShowLabel: false,
               tabBarActiveTintColor: "#c9d7ae",
